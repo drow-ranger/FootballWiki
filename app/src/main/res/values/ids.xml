@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="team_badge" type="id" />
+    <item name="team_name" type="id" />
+    <item name="match_home_team" type="id" />
+    <item name="match_home_score" type="id" />
+    <item name="match_away_score" type="id" />
+    <item name="match_away_team" type="id" />
+    <item name="match_time" type="id" />
+    <item name="listEvent" type="id" />
+    <item name="team_overview" type="id" />
+    <item name="player_image" type="id" />
+    <item name="player_name" type="id" />
+    <item name="listTeam" type="id" />
+</resources>
