@@ -16,6 +16,8 @@ import com.deonico.footballwiki.R.color.colorAccent
 import com.deonico.footballwiki.api.ApiRepository
 import com.deonico.footballwiki.model.League
 import com.deonico.footballwiki.model.Team
+import com.deonico.footballwiki.teams.TeamAdapter
+import com.deonico.footballwiki.teams.TeamsPresenter
 import com.deonico.footballwiki.util.invisible
 import com.deonico.footballwiki.util.visible
 import org.jetbrains.anko.support.v4.*
@@ -60,7 +62,12 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
             leftPadding = dip(16)
             rightPadding = dip(16)
 
-            spinner = spinner()
+            linearLayout{
+                lparams(width = matchParent, height = wrapContent)
+                backgroundResource = R.drawable.rounded_white_button
+                spinner = spinner{}.lparams(width = matchParent)
+            }
+
             swipeRefresh = swipeRefreshLayout {
                 setColorSchemeResources(colorAccent,
                     android.R.color.holo_green_light,
@@ -115,6 +122,7 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
 
         swipeRefresh.onRefresh {
             presenter.getTeamList(leagueId)
+            progressBar.invisible()
         }
     }
 
@@ -143,37 +151,7 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, leagues)
         spinner.adapter = spinnerAdapter
 
-        spinner.setSelection(spinnerAdapter.getPosition(League("4328", "English Premier League")))
+        spinner.setSelection(spinnerAdapter.getPosition(League("4331", "German Bundesliga")))
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        inflater?.inflate(
-            R.menu.main_menu,
-            menu
-        )
-
-        val searchView = menu?.findItem(R.id.searchMenu)?.actionView as android.widget.SearchView
-
-        searchView.setOnSearchClickListener {
-        }
-        searchView.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    presenter.searchTeam(query)
-                    Log.d("cariawal", query)
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
-        searchView.setOnCloseListener {
-            progressBar.invisible()
-            false
-        }
-    }*/
 
 }

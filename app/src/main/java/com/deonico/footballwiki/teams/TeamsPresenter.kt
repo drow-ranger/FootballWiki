@@ -1,5 +1,6 @@
-package com.deonico.footballwiki.Teams
+package com.deonico.footballwiki.teams
 
+import com.deonico.footballwiki.Teams.TeamsView
 import com.deonico.footballwiki.api.ApiRepository
 import com.deonico.footballwiki.api.TheSportDBApi
 import com.deonico.footballwiki.model.LeagueResponse
