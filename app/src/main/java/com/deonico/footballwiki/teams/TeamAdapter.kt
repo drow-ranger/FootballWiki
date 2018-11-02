@@ -9,13 +9,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.model.Team
+import com.deonico.footballwiki.teams.detail.TeamDetailActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_list_team.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 
-class TeamAdapter(private val teams: List<Team>)
+class TeamAdapter(private val teams: List<Team>,
+                  private val listener: (Team) -> Unit)
     : RecyclerView.Adapter<TeamViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
@@ -23,8 +25,8 @@ class TeamAdapter(private val teams: List<Team>)
     }
 
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
-        holder.bindItem(teams[position])
-        holder.itemView.onClick {holder.itemView.context.startActivity<TeamsDetailActivity>("data" to teams, "posisi" to position )}
+        holder.bindItem(teams[position], listener)
+        //holder.itemView.onClick {holder.itemView.context.startActivity<TeamDetailActivity>("data" to teams, "posisi" to position )}
     }
 
     override fun getItemCount(): Int = teams.size
@@ -33,9 +35,14 @@ class TeamAdapter(private val teams: List<Team>)
 
 class TeamViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
-    fun bindItem(teams: Team) {
+    fun bindItem(teams: Team, listener: (Team) -> Unit) {
         Picasso.get().load(teams.strTeamBadge).into(itemView.iv_icon)
         itemView.tv_name.text = teams.strTeam
         itemView.tv_description.text = teams.strDescriptionEN
+
+        itemView.onClick {
+            listener(teams)
+        }
+
     }
 }

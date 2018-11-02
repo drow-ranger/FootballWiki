@@ -18,6 +18,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!--<activity android:name=".favorite.FavoriteDetailActivity" />
+        <activity android:name=".favorite.FavoriteTeamDetailActivity"
+                  android:theme="@style/AppTheme.NoActionBar" />-->
+        <activity
+                android:name=".teams.detail.TeamDetailActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+                android:name=".players.detail.PlayerDetailActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

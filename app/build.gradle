@@ -75,6 +75,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-design-coroutines:$anko_version"
 
+    implementation "com.borjabravo:readmoretextview:$readmore_version"
+
     testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation "org.mockito:mockito-inline:2.19.0"
 

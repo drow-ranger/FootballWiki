@@ -12,4 +12,23 @@
     <item name="player_image" type="id" />
     <item name="player_name" type="id" />
     <item name="listTeam" type="id" />
+    <item name="date" type="id" />
+    <item name="homeTeam" type="id" />
+    <item name="homeScore" type="id" />
+    <item name="vs" type="id" />
+    <item name="awayScore" type="id" />
+    <item name="awayTeam" type="id" />
+    <item name="rv_matches_list" type="id" />
+    <item name="sp_league" type="id" />
+    <item name="search_bar_layout" type="id" />
+    <item name="spinner" type="id" />
+    <item name="list_team" type="id" />
+    <item name="player_badge" type="id" />
+    <item name="player_position" type="id" />
+    <item name="listPlayer" type="id" />
+    <item name="team_detail" type="id" />
+    <item name="first_item_player_detail" type="id" />
+    <item name="second_item_player_detail" type="id" />
+    <item name="third_item_player_detail" type="id" />
+    <item name="btn_notify" type="id" />
 </resources>
