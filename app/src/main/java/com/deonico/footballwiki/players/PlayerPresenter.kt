@@ -16,7 +16,6 @@ class PlayerPresenter(private val view: PlayerView,
 
     fun getPlayerList(idTeam: String?) {
         view.showLoading()
-        Log.d("presenter", "masuk presenter" + idTeam)
         async(context.main) {
             val data = bg {
                 gson.fromJson(apiRepository
@@ -24,7 +23,6 @@ class PlayerPresenter(private val view: PlayerView,
                     PlayerResponse::class.java
                 )
             }
-            Log.d("tesdulu", data.await().player[0].strPlayer)
             view.hideLoading()
             view.showPlayerList(data.await().player)
 

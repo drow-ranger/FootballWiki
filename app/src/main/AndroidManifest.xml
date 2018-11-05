@@ -26,6 +26,10 @@
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
+                android:name=".events.detail.EventDetailActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar" />
+        <activity
                 android:name=".players.detail.PlayerDetailActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar" />

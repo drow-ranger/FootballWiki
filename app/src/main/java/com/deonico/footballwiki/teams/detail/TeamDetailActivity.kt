@@ -91,7 +91,6 @@ class TeamDetailActivity: AppCompatActivity(){
                         table.STADIUM to team.strStadium,
                         table.TEAM_YEAR to team.intFormedYear,
                         table.DESCRIPTION to team.strDescriptionEN)
-
             }
             //team_detail_viewpager.snackbar("Added to favorite").show()
             Snackbar.make(team_detail_viewpager,"Added to favorite", Snackbar.LENGTH_LONG).show()
@@ -121,7 +120,8 @@ class TeamDetailActivity: AppCompatActivity(){
     private fun favoriteState(){
         database.use {
             val result = select(table.TABLE_TEAM)
-                    .whereArgs("(TEAM_ID = {id})", "id" to team.idTeam!!)
+                    .whereArgs("(TEAM_ID = {id})",
+                        "id" to team.idTeam!!)
             val favorite = result.parseList(classParser<TeamDB>())
             if (!favorite.isEmpty()) isFavorite = true
         }

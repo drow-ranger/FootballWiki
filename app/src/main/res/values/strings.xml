@@ -52,6 +52,24 @@
     <string name="txt_show_less">Show Less</string>
     <string name="position_text">Play Position</string>
 
+    <string name="txt_splash_screen">Football Wiki For Football Fans</string>
+    <string name="txt_matches">Matches</string>
+    <string name="txt_teams">Teams</string>
+    <string name="txt_msg_exit">Press Back Again To Exit</string>
+    <string name="txt_versus" translatable="false">VS</string>
+    <string name="txt_no_data_shown">No Data Shown</string>
+    <string name="txt_goal">Goal</string>
+    <string name="txt_lineup">Lineup</string>
+    <string name="txt_gk">Goal Keeper</string>
+    <string name="txt_df">Defense</string>
+    <string name="txt_mdf">Midfield</string>
+    <string name="txt_fw">Forward</string>
+    <string name="txt_sb">Subtituties</string>
+    <string name="txt_favourites">Favourite</string>
+    <string name="txt_search">Search</string>
+    <string name="add_favorite">Added to Favorite</string>
+    <string name="remove_favorite">Remove to Favorite</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

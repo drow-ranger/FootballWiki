@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.widget.Toast
-import com.deonico.footballwiki.Teams.TeamsFragment
+import com.deonico.footballwiki.R.id.*
+import com.deonico.footballwiki.teams.TeamsFragment
+import com.deonico.footballwiki.events.EventsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var savedInstanceState: Bundle? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.savedInstanceState = savedInstanceState
         setContentView(R.layout.activity_main)
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         nav_button.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_events -> {
-                    //openFragment(EventsFragment())
+                    openFragment(EventsFragment())
                     true
                 }
                 R.id.navigation_teams ->{
@@ -29,6 +31,35 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }*/
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
+        setContentView(R.layout.activity_main)
+
+        nav_button.setOnNavigationItemSelectedListener {
+                item -> when(item.itemId){
+            navigation_events -> {
+                supportActionBar?.hide()
+                openFragment(EventsFragment())
+                return@setOnNavigationItemSelectedListener true
+            }
+            navigation_teams -> {
+                supportActionBar?.show()
+                openFragment(TeamsFragment())
+                return@setOnNavigationItemSelectedListener true
+            }
+            navigation_favorite -> {
+                supportActionBar?.hide()
+                //openFragment(FavoritesFragment())
+                return@setOnNavigationItemSelectedListener true
+            }
+        }
+            false
+        }
+
+        nav_button.selectedItemId = navigation_teams
     }
 
     private fun openFragment(fragment: Fragment){

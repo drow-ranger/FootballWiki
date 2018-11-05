@@ -12,7 +12,6 @@ import org.jetbrains.anko.coroutines.experimental.bg
 class EventsPresenter(private val view: EventsView,
                       private val apiRepository: ApiRepository,
                       private val gson: Gson,
-                      private val fixture: Int = 1,
                       private val context: CoroutineContextProvider = CoroutineContextProvider()){
 
     fun getLeague(){
@@ -30,7 +29,7 @@ class EventsPresenter(private val view: EventsView,
         }
     }
 
-    fun getList(id: String?){
+    /*fun getList(id: String?){
         view.showLoading()
 
         val api = if (fixture == 1) TheSportDBApi.getPrevSchedule(id) else TheSportDBApi.getNextSchedule(id)
@@ -43,5 +42,51 @@ class EventsPresenter(private val view: EventsView,
             view.showList(data.await().events)
             view.hideLoading()
         }
+    }*/
+
+    fun getNextEvent(leagueId: String) {
+        view.showLoading()
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                    .doRequest(TheSportDBApi.getNextEvent(leagueId)),
+                    EventResponse::class.java
+                )
+            }
+
+            view.hideLoading()
+            view.showEventList(data.await().events)
+        }
     }
+
+    fun getPreviousEvent(leagueId: String) {
+        view.showLoading()
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                    .doRequest(TheSportDBApi.getPreviousEvent(leagueId)),
+                    EventResponse::class.java
+                )
+            }
+
+            view.hideLoading()
+            view.showEventList(data.await().events)
+        }
+    }
+
+    fun searchEvent(keyword: String) {
+        view.showLoading()
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                    .doRequest(TheSportDBApi.getEvents(keyword)),
+                    EventResponse::class.java
+                )
+            }
+
+            view.hideLoading()
+            view.showEventList(data.await().events)
+        }
+    }
+
 }

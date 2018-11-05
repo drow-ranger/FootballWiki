@@ -11,11 +11,7 @@ data class TeamDB(
     val strStadium: String?,
     val intFormedYear: String?,
     val strDescriptionEN: String?,
-    val strTeamBadge: String?,
-    val strTeamFanart1: String?,
-    val strTeamFanart2: String?,
-    val strTeamFanart3: String?,
-    val strTeamFanart4: String?
+    val strTeamBadge: String?
 
 ) : Parcelable {
     companion object {
@@ -27,9 +23,5 @@ data class TeamDB(
         const val TEAM_YEAR: String = "TEAM_YEAR"
         const val DESCRIPTION: String = "DESCRIPTION"
         const val TEAM_LOGO: String = "TEAM_LOGO"
-        const val FANART1: String = "FANART1"
-        const val FANART2: String = "FANART2"
-        const val FANART3: String = "FANART3"
-        const val FANART4: String = "FANART4"
     }
 }

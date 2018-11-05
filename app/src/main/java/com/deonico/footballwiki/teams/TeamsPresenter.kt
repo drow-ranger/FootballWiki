@@ -1,5 +1,6 @@
 package com.deonico.footballwiki.teams
 
+import android.util.Log
 import com.deonico.footballwiki.Teams.TeamsView
 import com.deonico.footballwiki.api.ApiRepository
 import com.deonico.footballwiki.api.TheSportDBApi
@@ -47,6 +48,22 @@ class TeamsPresenter(private val view: TeamsView,
             }
             view.showTeamList(data.await().teams)
             view.hideLoading()
+        }
+    }
+
+    fun searchTeam(keyword: String) {
+
+        view.showLoading()
+        async(context.main) {
+            val data = bg {
+                gson.fromJson(apiRepository
+                    .doRequest(TheSportDBApi.getTeams(keyword)),
+                    TeamResponse::class.java
+                )
+            }
+
+            view.hideLoading()
+            view.showTeamList(data.await().teams)
         }
     }
 
