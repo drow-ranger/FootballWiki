@@ -7,12 +7,20 @@ import kotlinx.android.parcel.Parcelize
 data class EventDB(
     val id: Long?,
     val idEvent: String?,
-    val dateEvent: String?,
-    val timeEvent: String?,
+    val dateEvent: String?,/*
+    val timeEvent: String?,*/
     val strHomeTeam: String?,
     val strAwayTeam: String?,
     val intHomeScore: String?,
     val intAwayScore: String?,
+    val intHomeShots: String?,
+    val intAwayShots: String?,
+    val strHomeGoalDetails: String?,
+    val strAwayGoalDetails: String?,
+    val strHomeYellowCards: String?,
+    val strAwayYellowCards: String?,
+    val strHomeRedCards: String?,
+    val strAwayRedCards: String?,
     val idHomeTeam: String?,
     val idAwayTeam: String?
 ): Parcelable
@@ -21,8 +29,8 @@ data class EventDB(
     companion object {
         const val TABLE_EVENT: String = "TABLE_EVENT"
         const val ID: String = "ID_"
-        const val EVENT_ID: String = "EVENT_ID"
-        const val EVENT_NAME: String = "EVENT_NAME"
+        const val EVENT_ID: String = "EVENT_ID"/*
+        const val EVENT_NAME: String = "EVENT_NAME"*/
         const val EVENT_DATE: String = "EVENT_DATE"/*
         const val EVENT_TIME: String = "EVENT_TIME"
         const val HOME_LOGO: String = "HOME_LOGO"
@@ -43,6 +51,14 @@ data class EventDB(
         const val AWAY_FW: String = "AWAY_FW"
         const val HOME_SUB: String = "HOME_SUB"
         const val AWAY_SUB: String = "AWAY_SUB"*/
+        const val HOME_SHOTS: String = "HOME_SHOTS"
+        const val AWAY_SHOTS: String = "AWAY_SHOTS"
+        const val HOME_GOAL: String = "HOME_GOAL"
+        const val AWAY_GOAL: String = "AWAY_GOAL"
+        const val HOME_YELLOW: String = "HOME_YELLOW"
+        const val AWAY_YELLOW: String = "AWAY_YELLOW"
+        const val HOME_RED: String = "HOME_RED"
+        const val AWAY_RED: String = "AWAY_RED"
         const val ID_HOME: String = "ID_HOME"
         const val ID_AWAY: String = "ID_AWAY"
     }

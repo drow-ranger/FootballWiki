@@ -1,4 +1,4 @@
-package com.deonico.footballwiki.events.previous
+package com.deonico.footballwiki.events
 
 import android.content.Context
 import android.os.Bundle
@@ -6,46 +6,33 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import android.widget.*
-import com.deonico.footballwiki.Events.EventsPresenter
-import com.deonico.footballwiki.Events.EventsView
+import com.google.gson.Gson
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.api.ApiRepository
-import com.deonico.footballwiki.events.detail.EventDetailActivity
+import com.deonico.footballwiki.events.EventsAdapter
+import com.deonico.footballwiki.events.EventsPresenter
+import com.deonico.footballwiki.events.EventsView
 import com.deonico.footballwiki.model.Event
 import com.deonico.footballwiki.model.League
-import com.deonico.footballwiki.util.gone
-import com.google.gson.Gson
 import com.deonico.footballwiki.util.invisible
 import com.deonico.footballwiki.util.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onRefresh
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
-
-    private lateinit var spinner: Spinner
-    private lateinit var leagueId: String
-
-    private lateinit var listEvent: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var swipeRefresh: SwipeRefreshLayout
-    private lateinit var spinnerbar: LinearLayout
-
-    private var events: MutableList<Event> = mutableListOf()
-    private var leagues: MutableList<League> = mutableListOf()
-
-    private lateinit var presenter: EventsPresenter
-    private lateinit var adapter: EventsPreviousAdapter
+class EventsPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
         setHasOptionsMenu(true)
+
         return createView(AnkoContext.create(ctx))
     }
 
@@ -57,15 +44,9 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
             leftPadding = dip(16)
             rightPadding = dip(16)
 
-            spinnerbar = linearLayout{
-                lparams(width = matchParent, height = wrapContent)
-                backgroundResource = R.drawable.rounded_white_button
-                spinner = spinner{}.lparams(width = matchParent)
-            }
-
+            spinner = spinner()
             swipeRefresh = swipeRefreshLayout {
-                setColorSchemeResources(
-                    R.color.colorAccent,
+                setColorSchemeResources(R.color.colorAccent,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light)
@@ -89,13 +70,26 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
 
     }
 
+    private lateinit var spinner: Spinner
+    private lateinit var leagueId: String
+
+
+    private lateinit var listEvent: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var swipeRefresh: SwipeRefreshLayout
+
+    private var events: MutableList<Event> = mutableListOf()
+    private var leagues: MutableList<League> = mutableListOf()
+
+    private lateinit var presenter: EventsPresenter
+    private lateinit var adapterEvents: EventsAdapter
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //set adapter
-        adapter = EventsPreviousAdapter(events){
-            startActivity<EventDetailActivity>("eventObject" to it)
-        }
-        listEvent.adapter = adapter
+        adapterEvents = EventsAdapter(events)
+        listEvent.adapter = adapterEvents
 
         //get data
         val request = ApiRepository()
@@ -103,7 +97,8 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
 
         //init presenter
         presenter = EventsPresenter(this, request, gson)
-        presenter.getLeague()
+        presenter.getLeague()/*
+        presenter.getPreviousEvent("4328")*/
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -111,28 +106,23 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
 
                 leagueId = league.leagueId.orEmpty()
                 if(leagueId.isNotEmpty()){
-                    presenter.getNextEvent(leagueId)
+                    presenter.getPreviousEvent(leagueId)
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-
         swipeRefresh.onRefresh {
-            spinnerbar.visible()
-            presenter.getNextEvent(leagueId)
-            progressBar.invisible()
+            presenter.getPreviousEvent(leagueId)
         }
     }
 
-
-    //imp mainView
-    override fun showEventList(data: List<Event>) {
+    override fun showEventsList(data: List<Event>) {
         swipeRefresh.isRefreshing = false
         events.clear()
         events.addAll(data)
-        adapter.notifyDataSetChanged()
+        adapterEvents.notifyDataSetChanged()
     }
 
     override fun showLoading() {
@@ -148,10 +138,10 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
         leagues.clear()
         leagues.addAll(data)
 
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, leagues)
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.support_simple_spinner_dropdown_item, leagues)
         spinner.adapter = spinnerAdapter
 
-        spinner.setSelection(spinnerAdapter.getPosition(League("4331", "German Bundesliga")))
+        spinner.setSelection(spinnerAdapter.getPosition(League("4328", "English Premier League")))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -161,22 +151,18 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
             menu
         )
 
-        val searchView = menu?.findItem(R.id.searchMenu)?.
-            actionView as SearchView
+        val searchView = menu?.findItem(R.id.searchMenu)?.actionView as SearchView
 
-        searchView.setOnQueryTextListener(object:
-            SearchView.OnQueryTextListener{
+        searchView.setOnSearchClickListener {}
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(keyword: String?): Boolean {
-                val keywordteam = keyword?.replace(" ", "%20")
-                spinnerbar.gone()
-                if (keywordteam != null) {
-                    presenter.searchEvent(keywordteam)
+                if (keyword != null) {
+                    presenter.searchEvent(keyword)
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                spinnerbar.gone()
                 return false
             }
         })
@@ -185,5 +171,4 @@ class EventPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
             false
         }
     }
-
 }

@@ -1,26 +1,19 @@
 package com.deonico.footballwiki.events
 
-import android.content.Intent
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.R.layout.fragment_events
-import com.deonico.footballwiki.R.id.search_menu
-import com.deonico.footballwiki.events.next.EventNextFragment
-import com.deonico.footballwiki.events.previous.EventPreviousFragment
-import com.deonico.footballwiki.teams.detail.ViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_events.*
-import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.support.v4.ctx
 
-/*
 class EventsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +44,8 @@ class EventsFragment : Fragment() {
     class PagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
         override fun getItem(position: Int): Fragment? {
             when (position) {
-                0 -> return EventNextFragment()
-                1 -> return EventPreviousFragment()
+                0 -> return EventsPreviousFragment()
+                1 -> return EventsPreviousFragment()
 
                 else -> return null
             }
@@ -72,8 +65,9 @@ class EventsFragment : Fragment() {
 
 
 
-}*/
+}
 
+/*
 class EventsFragment: Fragment(){
     private var leagueId = "4331"   //EPL
 
@@ -99,7 +93,7 @@ class EventsFragment: Fragment(){
         toolbar.setOnMenuItemClickListener {
             when(it.itemId){
                 search_menu -> {
-                    val intent = Intent(context, MatchesListSearchActivity::class.java)
+                    val intent = Intent(context, EventsSearchActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -110,9 +104,9 @@ class EventsFragment: Fragment(){
 
     private fun setupViewPager(viewPager: ViewPager){
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFrag(EventsFragment.newFragment(2, leagueId), "NEXT")
-        adapter.addFrag(EventsFragment.newFragment(1, leagueId), "LAST")
+        adapter.addFrag(EventsListFragment.newFragment(2, leagueId), "NEXT")
+        adapter.addFrag(EventsListFragment.newFragment(1, leagueId), "LAST")
         viewPager.adapter = adapter
     }
 
-}
+}*/

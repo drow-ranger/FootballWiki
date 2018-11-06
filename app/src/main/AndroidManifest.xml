@@ -21,17 +21,16 @@
         <!--<activity android:name=".favorite.FavoriteDetailActivity" />
         <activity android:name=".favorite.FavoriteTeamDetailActivity"
                   android:theme="@style/AppTheme.NoActionBar" />-->
+        <!--<activity android:name=".events.search.EventsSearchActivity"
+                  android:parentActivityName="MainActivity"/>-->
         <activity
                 android:name=".teams.detail.TeamDetailActivity"
-                android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
-                android:name=".events.detail.EventDetailActivity"
-                android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".events.detail.EventsDetailActivity"
+                />
         <activity
                 android:name=".players.detail.PlayerDetailActivity"
-                android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

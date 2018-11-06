@@ -11,6 +11,7 @@ import android.widget.*
 import com.google.gson.Gson
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.R.color.colorAccent
+import com.deonico.footballwiki.Teams.TeamsView
 import com.deonico.footballwiki.api.ApiRepository
 import com.deonico.footballwiki.model.League
 import com.deonico.footballwiki.model.Team

@@ -2,137 +2,155 @@ package com.deonico.footballwiki.events.detail
 
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import com.deonico.footballwiki.db.EventDB
+import com.deonico.footballwiki.model.Event
+import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.R.drawable.ic_add_to_favorite
 import com.deonico.footballwiki.R.drawable.ic_added_to_favorite
 import com.deonico.footballwiki.api.ApiRepository
-import com.deonico.footballwiki.db.EventDB
+import com.deonico.footballwiki.api.TheSportDBApi
 import com.deonico.footballwiki.db.database
-import com.deonico.footballwiki.model.Event
-import com.deonico.footballwiki.model.Team
-import com.deonico.footballwiki.util.changeFormatDate
-import com.deonico.footballwiki.util.strTodate
-import com.google.gson.Gson
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_event_detail.*
+import com.deonico.footballwiki.model.TeamResponse
+import kotlinx.android.synthetic.main.activity_match_detail.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.support.v4.onRefresh
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
-class EventsDetailActivity: AppCompatActivity(), EventsDetailView{
-    private lateinit var event: Event
-    private lateinit var presenter: EventsDetailPresenter
-    private val table = EventDB
+class EventsDetailActivity : AppCompatActivity() {
+
+    private lateinit var favorite: EventDB
+
+    private lateinit var dataEventId: String
 
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_event_detail)
+        setContentView(R.layout.activity_match_detail)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val dataMatch: List<Event> = intent.getParcelableArrayListExtra("data")
+        val posisi = intent.getIntExtra("posisi", 0)
 
-        event = intent.getParcelableExtra("EVENT")
+        val idHomeTeam = dataMatch[posisi].idHomeTeam
+        val idAwayTeam = dataMatch[posisi].idAwayTeam
 
-        val date = strTodate(event.dateEvent)
-        tv_date.text = changeFormatDate(date)
 
-        home_club.text = event.strHomeTeam
-        home_score.text = event.intHomeScore
+        val imgHome = detail_home_logo
+        val imgAway = detail_away_logo
 
-        away_club.text = event.strAwayTeam
-        away_score.text = event.intAwayScore
+        getBadge(idHomeTeam, imgHome)
+        getBadge(idAwayTeam, imgAway)
+
+        dataEventId = dataMatch[posisi].idEvent.toString()
+        val dataEventDate = dataMatch[posisi].dateEvent
+        val dataHomeTeam = dataMatch[posisi].strHomeTeam
+        val dataAwayTeam = dataMatch[posisi].strAwayTeam
+        val dataHomeScore = dataMatch[posisi].intHomeScore
+        val dataAwayScore = dataMatch[posisi].intAwayScore
+        val dataHomeShots = dataMatch[posisi].intHomeShots
+        val dataAwayShots = dataMatch[posisi].intAwayShots
+        val dataHomeGoal = dataMatch[posisi].strHomeGoalDetails?.replace(";".toRegex(), "\n")
+        val dataAwayGoal = dataMatch[posisi].strAwayGoalDetails?.replace(";".toRegex(), "\n")
+        val dataHomeYellow = dataMatch[posisi].strHomeYellowCards?.replace(";".toRegex(), "\n")
+        val dataAwayYellow = dataMatch[posisi].strAwayYellowCards?.replace(";".toRegex(), "\n")
+        val dataHomeRed = dataMatch[posisi].strHomeRedCards?.replace(";".toRegex(), "\n")
+        val dataAwayRed = dataMatch[posisi].strAwayRedCards?.replace(";".toRegex(), "\n")
+        val dataIdHome = dataMatch[posisi].idHomeTeam
+        val dataIdAway = dataMatch[posisi].idAwayTeam
+
+        favorite = EventDB(1, dataEventId,
+            dataEventDate,
+            dataHomeTeam,
+            dataAwayTeam,
+            dataHomeScore,
+            dataAwayScore,
+            dataHomeShots,
+            dataAwayShots,
+            dataHomeGoal,
+            dataAwayGoal,
+            dataHomeYellow,
+            dataAwayGoal,
+            dataHomeRed,
+            dataAwayRed,
+            dataIdHome,
+            dataIdAway
+        )
+
+        detail_match_time.text = dataEventDate
+
+        detail_home_team.text = dataHomeTeam
+        detail_away_team.text = dataAwayTeam
+        detail_home_score.text = dataHomeScore
+        detail_away_score.text = dataAwayScore
+
+        detail_home_shots.text = dataHomeShots
+        detail_away_shots.text = dataAwayShots
+
+        detail_home_goal.text = dataHomeGoal?.replace(";".toRegex(), "\n")
+        detail_away_goal.text = dataAwayGoal?.replace(";".toRegex(), "\n")
+        detail_home_yellow.text = dataHomeYellow?.replace(";", "\n")
+        detail_away_yellow.text = dataAwayYellow?.replace(";".toRegex(), "\n")
+        detail_home_red.text = dataHomeRed?.replace(";".toRegex(), "\n")
+        detail_away_red.text = dataAwayRed?.replace(";".toRegex(), "\n")
+
 
         favoriteState()
+        setFavorite()
 
-        val request = ApiRepository()
+    }
+
+    private fun getBadge(idTeam: String?, imageView: ImageView) {
+
+        val api = ApiRepository()
         val gson = Gson()
-        presenter = EventsDetailPresenter(this, request, gson)
-        presenter.getEventDetail(event.idEvent,
-            event.idHomeTeam,
-            event.idAwayTeam)
 
-        swipe_match.onRefresh {
-            presenter.getEventDetail(event.idEvent,
-                event.idHomeTeam,
-                event.idAwayTeam)
+        var data: TeamResponse
+        doAsync {
+
+            data = gson.fromJson(api
+                .doRequest(TheSportDBApi.getTeamDetail(idTeam)),
+                TeamResponse::class.java
+            )
+
+            uiThread {
+                val linkBadge = data.teams.get(0).strTeamBadge
+                Picasso.get().load(linkBadge).into(imageView)
+            }
         }
-        swipe_match.setColorSchemeResources(
-            R.color.colorAccent,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light)
     }
 
-    override fun showLoading() {
-        swipe_match.isRefreshing = true
-    }
-
-    override fun hideLoading() {
-        swipe_match.isRefreshing = false
-    }
-
-    override fun showDetail(matchDetails: List<Event>,
-                            homeTeams: List<Team>,
-                            awayTeams: List<Team>) {
-        val eventDetail = matchDetails.get(0)
-        val homeTeam = homeTeams.get(0)
-        val awayTeam = awayTeams.get(0)
-
-        Picasso.get().load(homeTeam.strTeamBadge).into(home_img)
-        home_club.text = eventDetail.strHomeTeam
-        home_score.text = eventDetail.intHomeScore
-        home_formation.text = eventDetail.strHomeFormation
-        home_goals.text = if(eventDetail.strHomeGoalDetails.isNullOrEmpty()) "-" else eventDetail.strHomeGoalDetails?.replace(";", ";\n")
-        home_shots.text = eventDetail.intHomeShots ?: "-"
-        home_goalkeeper.text = if(eventDetail.strHomeLineupGoalkeeper.isNullOrEmpty()) "-" else eventDetail.strHomeLineupGoalkeeper?.replace("; ", ";\n")
-        home_defense.text = if(eventDetail.strHomeLineupDefense.isNullOrEmpty()) "-" else eventDetail.strHomeLineupDefense?.replace("; ", ";\n")
-        home_midfield.text = if(eventDetail.strHomeLineupMidfield.isNullOrEmpty()) "-" else eventDetail.strHomeLineupMidfield?.replace("; ", ";\n")
-        home_forward.text = if(eventDetail.strHomeLineupForward.isNullOrEmpty()) "-" else eventDetail.strHomeLineupForward?.replace("; ", ";\n")
-        home_subtitutes.text = if(eventDetail.strHomeLineupSubstitutes.isNullOrEmpty()) "-" else eventDetail.strHomeLineupSubstitutes?.replace("; ", ";\n")
-
-        Picasso.get().load(awayTeam.strTeamBadge).into(away_img)
-        away_club.text = eventDetail.strAwayTeam
-        away_score.text = eventDetail.intAwayScore
-        away_formation.text = eventDetail.strAwayFormation
-        away_goals.text = if(eventDetail.strAwayGoalDetails.isNullOrEmpty()) "-" else eventDetail.strAwayGoalDetails?.replace(";", ";\n")
-        away_shots.text = eventDetail.intAwayShots ?: "-"
-        away_goalkeeper.text = if(eventDetail.strAwayLineupGoalkeeper.isNullOrEmpty()) "-" else eventDetail.strAwayLineupGoalkeeper?.replace("; ", ";\n")
-        away_defense.text = if(eventDetail.strAwayLineupDefense.isNullOrEmpty()) "-" else eventDetail.strAwayLineupDefense?.replace("; ", ";\n")
-        away_midfield.text = if(eventDetail.strAwayLineupMidfield.isNullOrEmpty()) "-" else eventDetail.strAwayLineupMidfield?.replace("; ", ";\n")
-        away_forward.text = if(eventDetail.strAwayLineupForward.isNullOrEmpty()) "-" else eventDetail.strAwayLineupForward?.replace("; ", ";\n")
-        away_subtitutes.text = if(eventDetail.strAwayLineupSubstitutes.isNullOrEmpty()) "-" else eventDetail.strAwayLineupSubstitutes?.replace("; ", ";\n")
-
-        hideLoading()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
         menuItem = menu
         setFavorite()
-
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true
             }
             R.id.add_to_favorite -> {
-                if(isFavorite) removeFromFavorite() else addToFavorite()
+                if (isFavorite) removeFromFavorite() else addToFavorite()
 
                 isFavorite = !isFavorite
                 setFavorite()
+
                 true
             }
 
@@ -140,53 +158,62 @@ class EventsDetailActivity: AppCompatActivity(), EventsDetailView{
         }
     }
 
-    private fun addToFavorite(){
+    private fun addToFavorite() {
         try {
             database.use {
-                insert(table.TABLE_EVENT,
-                    table.EVENT_ID to event.idEvent,
-                    table.EVENT_NAME to event.strEvent,
-                    table.EVENT_DATE to event.dateEvent,
-                    table.ID_HOME to event.idHomeTeam,
-                    table.HOME_TEAM to event.strHomeTeam,
-                    table.HOME_SCORE to event.intHomeScore,
-                    table.ID_AWAY to event.idAwayTeam,
-                    table.AWAY_TEAM to event.strAwayTeam,
-                    table.AWAY_SCORE to event.intAwayScore)
+                insert(EventDB.TABLE_EVENT,
+                    EventDB.EVENT_ID to favorite.idEvent,
+                    EventDB.EVENT_ID to favorite.idEvent,
+                    EventDB.EVENT_DATE to favorite.dateEvent,
+                    EventDB.HOME_TEAM to favorite.strHomeTeam,
+                    EventDB.AWAY_TEAM to favorite.strAwayTeam,
+                    EventDB.HOME_SCORE to favorite.intHomeScore,
+                    EventDB.AWAY_SCORE to favorite.intAwayScore,
+                    EventDB.HOME_SHOTS to favorite.intHomeShots,
+                    EventDB.AWAY_SHOTS to favorite.intAwayShots,
+                    EventDB.HOME_GOAL to favorite.strHomeGoalDetails,
+                    EventDB.AWAY_GOAL to favorite.strAwayGoalDetails,
+                    EventDB.HOME_YELLOW to favorite.strHomeYellowCards,
+                    EventDB.AWAY_YELLOW to favorite.strAwayYellowCards,
+                    EventDB.HOME_RED to favorite.strHomeRedCards,
+                    EventDB.AWAY_RED to favorite.strAwayRedCards,
+                    EventDB.ID_HOME to favorite.idHomeTeam,
+                    EventDB.ID_AWAY to favorite.idAwayTeam
+
+                )
             }
-            Snackbar.make(swipe_match,"Added to favorite", Snackbar.LENGTH_LONG).show()
-        }catch (e: SQLiteConstraintException){
-            Snackbar.make(swipe_match,e.localizedMessage, Snackbar.LENGTH_LONG).show()
+            toast("Added to favorite").show()
+        } catch (e: SQLiteConstraintException) {
+            toast(e.localizedMessage).show()
         }
     }
 
-    private fun removeFromFavorite(){
+    private fun removeFromFavorite() {
         try {
-            database.use{
-                delete(table.TABLE_EVENT, "(EVENT_ID = {id})", "id" to event.idEvent.orEmpty())
+            database.use {
+                delete(EventDB.TABLE_EVENT, "(EVENT_ID = {id})",
+                    "id" to dataEventId)
             }
-            Snackbar.make(swipe_match,"Removed to favorite", Snackbar.LENGTH_LONG).show()
-        } catch (e: SQLiteConstraintException){
-            Snackbar.make(swipe_match,e.localizedMessage, Snackbar.LENGTH_LONG).show()
+            toast("Removed to favorite").show()
+        } catch (e: SQLiteConstraintException) {
+            toast(e.localizedMessage).show()
         }
     }
 
-    private fun setFavorite(){
-        val icon = if(isFavorite) ic_added_to_favorite else ic_add_to_favorite
-
-        menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, icon)
+    private fun setFavorite() {
+        if (isFavorite)
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_added_to_favorite)
+        else
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_add_to_favorite)
     }
 
-    private fun favoriteState(){
+    private fun favoriteState() {
         database.use {
-            val result = select(table.TABLE_EVENT)
-                .whereArgs("(EVENT_ID = {id})", "id" to event.idEvent.orEmpty())
-            val favorite = result.parseList(
-                classParser<EventDB
-                        >()
-            )
+            val result = select(EventDB.TABLE_EVENT)
+                .whereArgs("(EVENT_ID = {id})",
+                    "id" to dataEventId)
+            val favorite = result.parseList(classParser<EventDB>())
             if (!favorite.isEmpty()) isFavorite = true
         }
     }
-
 }

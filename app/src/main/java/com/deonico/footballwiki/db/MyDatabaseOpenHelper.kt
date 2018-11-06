@@ -21,15 +21,15 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
         db.createTable(EventDB.TABLE_EVENT, true,
                 EventDB.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
                 EventDB.EVENT_ID to TEXT + UNIQUE,
-                EventDB.EVENT_NAME to TEXT,
-                EventDB.EVENT_DATE to TEXT,/*
+                /*EventDB.EVENT_NAME to TEXT,
+                EventDB.EVENT_DATE to TEXT,*//*
                 EventDB.EVENT_TIME to TEXT,
                 EventDB.HOME_LOGO to TEXT,
-                EventDB.AWAY_LOGO to TEXT,*/
+                EventDB.AWAY_LOGO to TEXT,*//*
                 EventDB.HOME_TEAM to TEXT,
                 EventDB.AWAY_TEAM to TEXT,
                 EventDB.HOME_SCORE to TEXT,
-                EventDB.AWAY_SCORE to TEXT,/*
+                EventDB.AWAY_SCORE to TEXT,*//*
                 EventDB.HOME_GOAL to TEXT,
                 EventDB.AWAY_GOAL to TEXT,
                 EventDB.HOME_GK to TEXT,
@@ -41,7 +41,22 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
                 EventDB.HOME_FW to TEXT,
                 EventDB.AWAY_FW to TEXT,
                 EventDB.HOME_SUB to TEXT,
-                EventDB.AWAY_SUB to TEXT,*/
+                EventDB.AWAY_SUB to TEXT,*//*
+                EventDB.ID_HOME to TEXT,
+                EventDB.ID_AWAY to TEXT)*/
+                EventDB.EVENT_DATE to TEXT,
+                EventDB.HOME_TEAM to TEXT,
+                EventDB.AWAY_TEAM to TEXT,
+                EventDB.HOME_SCORE to TEXT,
+                EventDB.AWAY_SCORE to TEXT,
+                EventDB.HOME_SHOTS to TEXT,
+                EventDB.AWAY_SHOTS to TEXT,
+                EventDB.HOME_GOAL to TEXT,
+                EventDB.AWAY_GOAL to TEXT,
+                EventDB.HOME_YELLOW to TEXT,
+                EventDB.AWAY_YELLOW to TEXT,
+                EventDB.HOME_RED to TEXT,
+                EventDB.AWAY_RED to TEXT,
                 EventDB.ID_HOME to TEXT,
                 EventDB.ID_AWAY to TEXT)
 

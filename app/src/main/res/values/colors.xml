@@ -16,5 +16,6 @@
     <color name="tabIndicatorColor">#ffc800</color>
     <color name="tabSelectedTextColor">#ffffff</color>
     <color name="tabTextColor">#ffffff</color>
+    <color name="colorText">#bcbcbc</color>
 
 </resources>

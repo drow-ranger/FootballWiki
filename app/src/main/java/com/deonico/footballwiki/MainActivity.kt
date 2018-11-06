@@ -3,15 +3,17 @@ package com.deonico.footballwiki
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.widget.Toast
 import com.deonico.footballwiki.R.id.*
+import com.deonico.footballwiki.R.menu.navigation
 import com.deonico.footballwiki.teams.TeamsFragment
 import com.deonico.footballwiki.events.EventsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var savedInstanceState: Bundle? = null
+    //private var savedInstanceState: Bundle? = null
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,43 +35,46 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        this.savedInstanceState = savedInstanceState
-        setContentView(R.layout.activity_main)
-
-        nav_button.setOnNavigationItemSelectedListener {
-                item -> when(item.itemId){
-            navigation_events -> {
-                supportActionBar?.hide()
-                openFragment(EventsFragment())
-                return@setOnNavigationItemSelectedListener true
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_events -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.content_main, EventsFragment(), EventsFragment::class.simpleName)
+                    .commit()
+                return@OnNavigationItemSelectedListener true
             }
-            navigation_teams -> {
-                supportActionBar?.show()
-                openFragment(TeamsFragment())
-                return@setOnNavigationItemSelectedListener true
-            }
-            navigation_favorite -> {
-                supportActionBar?.hide()
-                //openFragment(FavoritesFragment())
-                return@setOnNavigationItemSelectedListener true
+            R.id.navigation_teams -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.content_main, TeamsFragment(), TeamsFragment::class.simpleName)
+                    .commit()
+                return@OnNavigationItemSelectedListener true
             }
         }
-            false
-        }
-
-        nav_button.selectedItemId = navigation_teams
+        false
     }
 
-    private fun openFragment(fragment: Fragment){
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.content_main, EventsFragment(), EventsFragment::class.simpleName)
+            .commit()
+
+        nav_button.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    /*private fun openFragment(fragment: Fragment){
         if(savedInstanceState == null){
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.content_main, fragment, fragment.javaClass.simpleName)
                 .commit()
         }
-    }
+    }*/
 
     private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {

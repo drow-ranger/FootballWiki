@@ -11,7 +11,6 @@ import android.view.Menu
 import android.widget.LinearLayout
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.api.ApiRepository
-import com.deonico.footballwiki.events.detail.EventDetailActivity
 import com.deonico.footballwiki.events.detail.EventsDetailActivity
 import com.deonico.footballwiki.model.Event
 import com.google.gson.Gson
