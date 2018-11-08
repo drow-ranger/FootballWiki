@@ -97,8 +97,7 @@ class EventsPreviousFragment : Fragment(), AnkoComponent<Context>, EventsView {
 
         //init presenter
         presenter = EventsPresenter(this, request, gson)
-        presenter.getLeague()/*
-        presenter.getPreviousEvent("4328")*/
+        presenter.getLeague()
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {

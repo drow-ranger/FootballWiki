@@ -41,7 +41,7 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var spinnerbar: LinearLayout
 
-    private var teams: MutableList<Team> = mutableListOf(    )
+    private var teams: MutableList<Team> = mutableListOf()
     private var leagues: MutableList<League> = mutableListOf()
 
     private lateinit var presenter: TeamsPresenter
@@ -50,7 +50,7 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
 
         return createView(AnkoContext.create(ctx))
     }
