@@ -18,18 +18,18 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.createTable(EventDB.TABLE_EVENT, true,
+        /*db.createTable(EventDB.TABLE_EVENT, true,
                 EventDB.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
                 EventDB.EVENT_ID to TEXT + UNIQUE,
-                /*EventDB.EVENT_NAME to TEXT,
-                EventDB.EVENT_DATE to TEXT,*//*
+                *//*EventDB.EVENT_NAME to TEXT,
+                EventDB.EVENT_DATE to TEXT,*//**//*
                 EventDB.EVENT_TIME to TEXT,
                 EventDB.HOME_LOGO to TEXT,
-                EventDB.AWAY_LOGO to TEXT,*//*
+                EventDB.AWAY_LOGO to TEXT,*//**//*
                 EventDB.HOME_TEAM to TEXT,
                 EventDB.AWAY_TEAM to TEXT,
                 EventDB.HOME_SCORE to TEXT,
-                EventDB.AWAY_SCORE to TEXT,*//*
+                EventDB.AWAY_SCORE to TEXT,*//**//*
                 EventDB.HOME_GOAL to TEXT,
                 EventDB.AWAY_GOAL to TEXT,
                 EventDB.HOME_GK to TEXT,
@@ -41,9 +41,9 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
                 EventDB.HOME_FW to TEXT,
                 EventDB.AWAY_FW to TEXT,
                 EventDB.HOME_SUB to TEXT,
-                EventDB.AWAY_SUB to TEXT,*//*
+                EventDB.AWAY_SUB to TEXT,*//**//*
                 EventDB.ID_HOME to TEXT,
-                EventDB.ID_AWAY to TEXT)*/
+                EventDB.ID_AWAY to TEXT)*//*
                 EventDB.EVENT_DATE to TEXT,
                 EventDB.HOME_TEAM to TEXT,
                 EventDB.AWAY_TEAM to TEXT,
@@ -58,7 +58,19 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
                 EventDB.HOME_RED to TEXT,
                 EventDB.AWAY_RED to TEXT,
                 EventDB.ID_HOME to TEXT,
-                EventDB.ID_AWAY to TEXT)
+                EventDB.ID_AWAY to TEXT)*/
+
+        db?.createTable(EventDB.TABLE_MATCH, true,
+            EventDB.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            EventDB.EVENT_ID to TEXT + UNIQUE,
+            EventDB.EVENT_NAME to TEXT,
+            EventDB.EVENT_DATE to TEXT,
+            EventDB.HOME_TEAM_ID to TEXT,
+            EventDB.HOME_TEAM_NAME to TEXT,
+            EventDB.HOME_TEAM_SCORE to TEXT,
+            EventDB.AWAY_TEAM_ID to TEXT,
+            EventDB.AWAY_TEAM_NAME to TEXT,
+            EventDB.AWAY_TEAM_SCORE to TEXT)
 
         db.createTable(TeamDB.TABLE_TEAM, true,
                 TeamDB.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
@@ -71,7 +83,7 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.dropTable(EventDB.TABLE_EVENT, true)
+        db.dropTable(EventDB.TABLE_MATCH, true)
         db.dropTable(TeamDB.TABLE_TEAM, true)
     }
 }

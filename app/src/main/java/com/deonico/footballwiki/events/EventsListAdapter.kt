@@ -25,11 +25,17 @@ import java.util.concurrent.TimeUnit
 class EventsListAdapter(private val events: List<Event>,
                         private val listener: (Event) -> Unit):
     RecyclerView.Adapter<EventsListAdapter.EventViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = EventViewHolder(EventUI().createView(AnkoContext.create(parent.context, parent)))
+    override fun onCreateViewHolder(parent: ViewGroup,
+                                    viewType: Int) =
+        EventViewHolder(EventUI().
+            createView(AnkoContext.
+                create(parent.context, parent)))
 
     override fun getItemCount() = events.size
 
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) = holder.bindItem(events[position], listener)
+    override fun onBindViewHolder(holder: EventViewHolder,
+                                  position: Int) =
+        holder.bindItem(events[position], listener)
 
     class EventViewHolder(view: View): RecyclerView.ViewHolder(view){
         private val eventDate: TextView = itemView.find(R.id.date)

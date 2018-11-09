@@ -13,7 +13,7 @@ import com.deonico.footballwiki.events.EventsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    //private var savedInstanceState: Bundle? = null
+    private var savedInstanceState: Bundle? = null
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +35,10 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
+            item -> when (item.itemId) {
             R.id.navigation_events -> {
+                supportActionBar?.hide()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.content_main, EventsFragment(), EventsFragment::class.simpleName)
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_teams -> {
+                supportActionBar?.show()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.content_main, TeamsFragment(), TeamsFragment::class.simpleName)
@@ -57,8 +59,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
         setContentView(R.layout.activity_main)
 
+        supportActionBar?.hide()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.content_main, EventsFragment(), EventsFragment::class.simpleName)

@@ -3,9 +3,11 @@ package com.deonico.footballwiki.teams
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.*
 import com.google.gson.Gson
@@ -50,7 +52,7 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        //setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
 
         return createView(AnkoContext.create(ctx))
     }
@@ -161,14 +163,14 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
         spinner.setSelection(spinnerAdapter.getPosition(League("4331", "German Bundesliga")))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    /*override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
         inflater?.inflate(
-            R.menu.main_menu,
+            R.menu.search_view,
             menu
         )
 
-        val searchView = menu?.findItem(R.id.searchMenu)?.actionView as SearchView
+        val searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
 
         searchView.setOnSearchClickListener {}
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
@@ -190,6 +192,27 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
             progressBar.invisible()
             false
         }
+    }*/
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.search_view, menu)
+
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                if(text?.length!! > 2) {
+                    presenter.searchTeam(text)
+                }
+                return false
+            }
+
+        })
     }
 
 }

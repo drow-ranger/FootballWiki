@@ -2,19 +2,26 @@ package com.deonico.footballwiki.events
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.ViewPager
+import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.SearchView
 import com.deonico.footballwiki.R
+import com.deonico.footballwiki.R.id.search_menu
 import com.deonico.footballwiki.R.layout.fragment_events
+import com.deonico.footballwiki.events.search.EventsSearchActivity
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.find
 
-class EventsFragment : Fragment() {
+/*class EventsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -65,22 +72,24 @@ class EventsFragment : Fragment() {
 
 
 
-}
+}*/
 
-/*
 class EventsFragment: Fragment(){
     private var leagueId = "4331"   //EPL
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setupViewPager(viewPager)
+        setupViewPager(event_viewpager)
 
-        event_tabs.setupWithViewPager(viewPager)
+        event_tabs.setupWithViewPager(event_viewpager)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(fragment_events, container, false)
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(fragment_events,
+            container, false)
 
         return view
     }
@@ -93,7 +102,8 @@ class EventsFragment: Fragment(){
         toolbar.setOnMenuItemClickListener {
             when(it.itemId){
                 search_menu -> {
-                    val intent = Intent(context, EventsSearchActivity::class.java)
+                    val intent = Intent(context,
+                        EventsSearchActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -109,4 +119,20 @@ class EventsFragment: Fragment(){
         viewPager.adapter = adapter
     }
 
-}*/
+}
+
+class ViewPagerAdapter(manager: FragmentManager): FragmentPagerAdapter(manager) {
+    private val mFragmentList: MutableList<Fragment> = mutableListOf()
+    private val mFragmentTitleList: MutableList<String> = mutableListOf()
+
+    override fun getItem(position: Int) = mFragmentList.get(position)
+
+    override fun getCount() = mFragmentList.size
+
+    fun addFrag(fragment: Fragment, title: String){
+        mFragmentList.add(fragment)
+        mFragmentTitleList.add(title)
+    }
+
+    override fun getPageTitle(position: Int) = mFragmentTitleList.get(position)
+}
