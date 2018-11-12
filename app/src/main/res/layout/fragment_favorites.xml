@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context=".events.EventsFragment">
+              tools:context=".favorites.FavoritesFragment">
 
     <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
@@ -17,12 +17,17 @@
         <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Past" />
+                android:text="Events" />
 
         <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next" />
+                android:text="Teams" />
+
+        <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Players" />
 
     </android.support.design.widget.TabLayout>
 

@@ -7,9 +7,10 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.widget.Toast
 import com.deonico.footballwiki.R.id.*
-import com.deonico.footballwiki.R.menu.navigation
+import com.deonico.footballwiki.R.menu.menu_navigation
 import com.deonico.footballwiki.teams.TeamsFragment
 import com.deonico.footballwiki.events.EventsFragment
+import com.deonico.footballwiki.favorites.FavoritesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -38,18 +39,27 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
             item -> when (item.itemId) {
             R.id.navigation_events -> {
-                supportActionBar?.hide()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.content_main, EventsFragment(), EventsFragment::class.simpleName)
                     .commit()
                 return@OnNavigationItemSelectedListener true
             }
+
             R.id.navigation_teams -> {
-                supportActionBar?.show()
+
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.content_main, TeamsFragment(), TeamsFragment::class.simpleName)
+                    .commit()
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.navigation_favorite -> {
+
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.content_main, FavoritesFragment(), FavoritesFragment::class.simpleName)
                     .commit()
                 return@OnNavigationItemSelectedListener true
             }
@@ -62,7 +72,6 @@ class MainActivity : AppCompatActivity() {
         this.savedInstanceState = savedInstanceState
         setContentView(R.layout.activity_main)
 
-        supportActionBar?.hide()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.content_main, EventsFragment(), EventsFragment::class.simpleName)

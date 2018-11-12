@@ -11,7 +11,7 @@ import android.view.Menu
 import android.widget.LinearLayout
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.api.ApiRepository
-import com.deonico.footballwiki.teams.detail.TeamDetailActivity
+import com.deonico.footballwiki.teams.detail.TeamsDetailActivity
 import com.deonico.footballwiki.model.Team
 import com.google.gson.Gson
 import org.jetbrains.anko.*
@@ -26,7 +26,7 @@ class TeamsSearchActivity: AppCompatActivity(), TeamsSearchView{
     private lateinit var matchesList: RecyclerView
     private lateinit var presenter: TeamsSearchPresenter
     private lateinit var adapter: TeamsSearchAdapter
-    private var query: String = ""
+    private var keyword: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +39,8 @@ class TeamsSearchActivity: AppCompatActivity(), TeamsSearchView{
         presenter = TeamsSearchPresenter(this, request, gson)
 
         adapter = TeamsSearchAdapter(teams){
-            startActivity<TeamDetailActivity>(
-                "teamObject" to it
+            startActivity<TeamsDetailActivity>(
+                "teamData" to it
             )
         }
 
@@ -70,12 +70,12 @@ class TeamsSearchActivity: AppCompatActivity(), TeamsSearchView{
         matchesList.adapter = adapter
 
         swipeRefresh.onRefresh {
-            presenter.getTeam(query)
+            presenter.getTeam(keyword)
         }
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_view, menu)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.view_search, menu)
 
         val searchItem = menu?.findItem(R.id.action_search)
         searchView = MenuItemCompat.getActionView(searchItem) as SearchView
@@ -90,8 +90,8 @@ class TeamsSearchActivity: AppCompatActivity(), TeamsSearchView{
 
             override fun onQueryTextChange(text: String?): Boolean {
                 if(text?.length!! > 2) {
-                    query = text
-                    presenter.getTeam(query)
+                    keyword = text.replace("\\s".toRegex(), "%20")
+                    presenter.getTeam(keyword)
                 }
                 return false
             }
@@ -99,7 +99,7 @@ class TeamsSearchActivity: AppCompatActivity(), TeamsSearchView{
         })
 
         return true
-    }*/
+    }
 
     override fun showLoading() {
         swipeRefresh.isRefreshing = true

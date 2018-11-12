@@ -15,8 +15,8 @@ import com.deonico.footballwiki.R
 import com.deonico.footballwiki.api.ApiRepository
 import com.deonico.footballwiki.model.Player
 import com.deonico.footballwiki.model.Team
-import com.deonico.footballwiki.players.detail.PlayerAdapter
-import com.deonico.footballwiki.players.detail.PlayerDetailActivity
+import com.deonico.footballwiki.players.detail.PlayersAdapter
+import com.deonico.footballwiki.players.detail.PlayersDetailActivity
 import com.deonico.footballwiki.util.invisible
 import com.deonico.footballwiki.util.visible
 import com.google.gson.Gson
@@ -27,11 +27,11 @@ import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-class PlayersFragment : Fragment(), AnkoComponent<Context>, PlayerView {
+class PlayersFragment : Fragment(), AnkoComponent<Context>, PlayersView {
 
     private lateinit var team: Team
     private lateinit var listPlayer: RecyclerView
-    private lateinit var adapter: PlayerAdapter
+    private lateinit var adapter: PlayersAdapter
 
 
     private lateinit var progressBar: ProgressBar
@@ -39,7 +39,7 @@ class PlayersFragment : Fragment(), AnkoComponent<Context>, PlayerView {
 
     private var players: MutableList<Player> = mutableListOf()
 
-    private lateinit var presenter: PlayerPresenter
+    private lateinit var presenter: PlayersPresenter
 
     private var parameter: String? = null
 
@@ -98,9 +98,9 @@ class PlayersFragment : Fragment(), AnkoComponent<Context>, PlayerView {
         //parameter = getArguments()?.getString("parameter")
 
         //set adapter
-        adapter = PlayerAdapter(players){
-            startActivity<PlayerDetailActivity>(
-                "playerObject" to it
+        adapter = PlayersAdapter(players){
+            startActivity<PlayersDetailActivity>(
+                "playerData" to it
             )
         }
         listPlayer.adapter = adapter
@@ -110,7 +110,7 @@ class PlayersFragment : Fragment(), AnkoComponent<Context>, PlayerView {
         val gson = Gson()
 
         //init presenter
-        presenter = PlayerPresenter(this, request, gson)
+        presenter = PlayersPresenter(this, request, gson)
         presenter.getPlayerList(team.idTeam)
 
 

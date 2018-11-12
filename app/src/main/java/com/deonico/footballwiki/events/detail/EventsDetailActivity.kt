@@ -2,13 +2,14 @@ package com.deonico.footballwiki.events.detail
 
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_match_detail.*
+import kotlinx.android.synthetic.main.activity_event_detail.*
 import org.jetbrains.anko.db.classParser
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.R.color.colorAccent
@@ -21,31 +22,34 @@ import com.deonico.footballwiki.model.Event
 import com.deonico.footballwiki.model.Team
 import com.deonico.footballwiki.util.changeFormatDate
 import com.deonico.footballwiki.util.strTodate
+import com.deonico.footballwiki.util.toGMTFormat
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.onRefresh
+import java.text.SimpleDateFormat
 
 class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
     private lateinit var event: Event
     private lateinit var presenter: EventsDetailPresenter
-
-    private lateinit var dataEventId: String
 
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_match_detail)
+        setContentView(R.layout.activity_event_detail)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        event = intent.getParcelableExtra("EVENT")
+        event = intent.getParcelableExtra("eventData")
 
         val date = strTodate(event.dateEvent)
-        tv_date.text = changeFormatDate(date)
+        val dateTime = toGMTFormat(event.dateEvent, event.strTime)
+        val formatDateLocale = changeFormatDate(date)
+        val formatTime = SimpleDateFormat("HH:mm").format(dateTime)
+
+        tv_date.text = formatDateLocale
 
         home_club.text = event.strHomeTeam
         home_score.text = event.intHomeScore
@@ -110,7 +114,7 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.detail_menu, menu)
+        menuInflater.inflate(R.menu.menu_favorite, menu)
         menuItem = menu
         setFavorite()
 
@@ -140,18 +144,20 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
             database.use {
                 insert(EventDB.TABLE_MATCH,
                     EventDB.EVENT_ID to event.idEvent,
-                    EventDB.EVENT_NAME to event.strFilename,
+                    EventDB.EVENT_NAME to event.strEvent,
+                    EventDB.EVENT_FILENAME to event.strFilename,
                     EventDB.EVENT_DATE to event.dateEvent,
-                    EventDB.HOME_TEAM_ID to event.strHomeTeam,
-                    EventDB.HOME_TEAM_NAME to event.strAwayTeam,
+                    EventDB.EVENT_TIME to event.strTime,
+                    EventDB.HOME_TEAM_ID to event.idHomeTeam,
+                    EventDB.HOME_TEAM_NAME to event.strHomeTeam,
                     EventDB.HOME_TEAM_SCORE to event.intHomeScore,
                     EventDB.AWAY_TEAM_ID to event.idAwayTeam,
                     EventDB.AWAY_TEAM_NAME to event.strAwayTeam,
                     EventDB.AWAY_TEAM_SCORE to event.intAwayScore)
             }
-            //swipe_match.snackbar("Added to favorite").show()
+            Snackbar.make(event_detail_viewpager,"Added to favorite", Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
-            //swipe_match.snackbar(e.localizedMessage).show()
+            Snackbar.make(event_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -160,9 +166,9 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
             database.use{
                 delete(EventDB.TABLE_MATCH, "(EVENT_ID = {id})", "id" to event.idEvent.orEmpty())
             }
-            //swipe_match.snackbar( "Removed to favorite").show()
-        } catch (e: SQLiteConstraintException){
-            //swipe_match.snackbar(e.localizedMessage).show()
+            Snackbar.make(event_detail_viewpager,"Removed to favorite", Snackbar.LENGTH_LONG).show()
+        }catch (e: SQLiteConstraintException){
+            Snackbar.make(event_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
     }
 

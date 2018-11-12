@@ -26,7 +26,7 @@ class TeamsSearchAdapter(private val teams: List<Team>,
     override fun onBindViewHolder(holder: TeamViewHolder,
                                   position: Int) {
         holder.bindItem(teams[position], listener)
-        //holder.itemView.onClick {holder.itemView.context.startActivity<TeamDetailActivity>("data" to teams, "posisi" to position )}
+        //holder.itemView.onClick {holder.itemView.context.startActivity<TeamsDetailActivity>("data" to teams, "posisi" to position )}
     }
 
     override fun getItemCount(): Int = teams.size

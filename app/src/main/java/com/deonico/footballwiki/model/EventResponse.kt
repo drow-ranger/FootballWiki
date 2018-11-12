@@ -3,6 +3,9 @@ package com.deonico.footballwiki.model
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Parcelize
 data class Event(
@@ -59,6 +62,8 @@ data class Event(
     @SerializedName("strLocked") val strLocked : String? = null
 )
     :Parcelable
+
+
 
 data class EventResponse(
     val events: List<Event>, val event: List<Event>

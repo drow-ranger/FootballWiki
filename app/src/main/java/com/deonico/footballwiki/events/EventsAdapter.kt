@@ -1,6 +1,5 @@
-package com.deonico.footballwiki.events.search
+package com.deonico.footballwiki.events
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.provider.CalendarContract
 import android.support.v7.widget.RecyclerView
@@ -21,29 +20,29 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class EventsSearchAdapter(private val events: List<Event>,
-                          private val listener: (Event) -> Unit):
-    RecyclerView.Adapter<EventsSearchAdapter.EventViewHolder>(){
+class EventsAdapter(private val events: List<Event>,
+                    private val listener: (Event) -> Unit)
+    : RecyclerView.Adapter<EventsAdapter.MatchViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int) :
-        EventViewHolder{
-        return EventViewHolder(
-            LayoutInflater.
-                from(parent.context).
-                inflate(R.layout.item_list_event,
-                    parent,
-                    false))
+                                    viewType: Int):
+            MatchViewHolder {
+        return MatchViewHolder(LayoutInflater.
+            from(parent.context).
+            inflate(R.layout.item_list_event,
+                parent,
+                false))
     }
 
-    override fun onBindViewHolder(holder: EventViewHolder,
+    override fun onBindViewHolder(holder: MatchViewHolder,
                                   position: Int) {
         holder.bindItem(events[position], listener)
     }
 
-    override fun getItemCount() = events.size
+    override fun getItemCount(): Int = events.size
 
-    class EventViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view){
+
         private val eventDate: TextView = itemView.find(R.id.tv_date)
         private val eventTime: TextView = itemView.find(R.id.tv_time)
         private val homeTeam: TextView = itemView.find(R.id.tv_home_name)
@@ -52,7 +51,7 @@ class EventsSearchAdapter(private val events: List<Event>,
         private val awayScore: TextView = itemView.find(R.id.tv_away_score)
         private val btnNotify: ImageView = itemView.find(R.id.iv_alarm)
 
-        @SuppressLint("SimpleDateFormat")
+
         fun bindItem(event: Event, listener: (Event) -> Unit){
             val date = strTodate(event.dateEvent)
             val dateTime = toGMTFormat(event.dateEvent, event.strTime)
@@ -73,6 +72,7 @@ class EventsSearchAdapter(private val events: List<Event>,
             }
 
             itemView.onClick { listener(event) }
+
             btnNotify.onClick {
                 val intent = Intent(Intent.ACTION_INSERT)
                 intent.type = "vnd.android.cursor.item/event"
@@ -97,3 +97,5 @@ class EventsSearchAdapter(private val events: List<Event>,
     }
 
 }
+
+

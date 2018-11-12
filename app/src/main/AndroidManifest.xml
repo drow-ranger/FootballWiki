@@ -23,14 +23,15 @@
                   android:theme="@style/AppTheme.NoActionBar" />-->
         <activity android:name=".events.search.EventsSearchActivity"
                   android:parentActivityName="MainActivity"/>
+        <activity android:name=".teams.search.TeamsSearchActivity"
+                  android:parentActivityName="MainActivity"/>
         <activity
-                android:name=".teams.detail.TeamDetailActivity"
+                android:name=".teams.detail.TeamsDetailActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".events.detail.EventsDetailActivity" />
         <activity
-                android:name=".players.detail.PlayerDetailActivity"
-                android:theme="@style/AppTheme.NoActionBar" />
+                android:name=".players.detail.PlayersDetailActivity"/>
     </application>
 
 </manifest>

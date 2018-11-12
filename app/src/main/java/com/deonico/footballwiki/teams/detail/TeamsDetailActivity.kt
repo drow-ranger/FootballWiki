@@ -22,7 +22,7 @@ import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
-class TeamDetailActivity: AppCompatActivity(){
+class TeamsDetailActivity: AppCompatActivity(){
     private lateinit var team: Team
     private val table = TeamDB
 
@@ -36,7 +36,7 @@ class TeamDetailActivity: AppCompatActivity(){
 
         val toolbar = team_detail_toolbar
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
-        toolbar.inflateMenu(R.menu.detail_menu)
+        toolbar.inflateMenu(R.menu.menu_favorite)
         menuItem  = toolbar.menu
 
         toolbar.setNavigationOnClickListener {
@@ -55,9 +55,8 @@ class TeamDetailActivity: AppCompatActivity(){
                 onOptionsItemSelected(it)
             }
         }
-//
-//        team = intent.getParcelableExtra("TEAM")
-        team = intent.getParcelableExtra("teamObject")
+
+        team = intent.getParcelableExtra("teamData")
         fillData()
 
         setupViewPager(team_detail_viewpager)
@@ -126,20 +125,22 @@ class TeamDetailActivity: AppCompatActivity(){
             if (!favorite.isEmpty()) isFavorite = true
         }
     }
-}
 
-class ViewPagerAdapter(manager: FragmentManager): FragmentPagerAdapter(manager) {
-    private val mFragmentList: MutableList<Fragment> = mutableListOf()
-    private val mFragmentTitleList: MutableList<String> = mutableListOf()
+    class ViewPagerAdapter(manager: FragmentManager): FragmentPagerAdapter(manager) {
+        private val mFragmentList: MutableList<Fragment> = mutableListOf()
+        private val mFragmentTitleList: MutableList<String> = mutableListOf()
 
-    override fun getItem(position: Int) = mFragmentList.get(position)
+        override fun getItem(position: Int) = mFragmentList.get(position)
 
-    override fun getCount() = mFragmentList.size
+        override fun getCount() = mFragmentList.size
 
-    fun addFrag(fragment: Fragment, title: String){
-        mFragmentList.add(fragment)
-        mFragmentTitleList.add(title)
+        fun addFrag(fragment: Fragment, title: String){
+            mFragmentList.add(fragment)
+            mFragmentTitleList.add(title)
+        }
+
+        override fun getPageTitle(position: Int) = mFragmentTitleList.get(position)
     }
 
-    override fun getPageTitle(position: Int) = mFragmentTitleList.get(position)
 }
+

@@ -26,7 +26,7 @@ class EventsSearchActivity: AppCompatActivity(), EventsSearchView{
     private lateinit var matchesList: RecyclerView
     private lateinit var presenter: EventsSearchPresenter
     private lateinit var adapter: EventsSearchAdapter
-    private var query: String = ""
+    private var keyword: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class EventsSearchActivity: AppCompatActivity(), EventsSearchView{
         presenter = EventsSearchPresenter(this, request, gson)
 
         adapter = EventsSearchAdapter(events){
-            startActivity<EventsDetailActivity>("EVENT" to it)
+            startActivity<EventsDetailActivity>("eventData" to it)
         }
 
         linearLayout{
@@ -68,12 +68,12 @@ class EventsSearchActivity: AppCompatActivity(), EventsSearchView{
         matchesList.adapter = adapter
 
         swipeRefresh.onRefresh {
-            presenter.getEvent(query)
+            presenter.getEvent(keyword)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_view, menu)
+        menuInflater.inflate(R.menu.view_search, menu)
 
         val searchItem = menu?.findItem(R.id.action_search)
         searchView = MenuItemCompat.getActionView(searchItem) as SearchView
@@ -88,8 +88,8 @@ class EventsSearchActivity: AppCompatActivity(), EventsSearchView{
 
             override fun onQueryTextChange(text: String?): Boolean {
                 if(text?.length!! > 2) {
-                    query = text
-                    presenter.getEvent(query)
+                    keyword = text.replace("\\s".toRegex(), "%20")
+                    presenter.getEvent(keyword)
                 }
                 return false
             }

@@ -13,10 +13,10 @@ class EventsSearchPresenter(private val view: EventsSearchView,
                             private val gson: Gson,
                             private val context: CoroutineContextProvider = CoroutineContextProvider()){
 
-    fun getEvent(query: String?){
+    fun getEvent(keyword: String?){
         view.showLoading()
 
-        val api = TheSportDBApi.getEvents(query)
+        val api = TheSportDBApi.getEvents(keyword)
 
         async(context.main){
             val data = bg {

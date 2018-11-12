@@ -1,4 +1,4 @@
-package com.deonico.footballwiki.teams
+package com.deonico.footballwiki.events
 
 import android.content.Context
 import android.content.Intent
@@ -12,12 +12,11 @@ import android.widget.*
 import com.google.gson.Gson
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.R.color.colorAccent
-import com.deonico.footballwiki.Teams.TeamsView
 import com.deonico.footballwiki.api.ApiRepository
+import com.deonico.footballwiki.events.detail.EventsDetailActivity
 import com.deonico.footballwiki.events.search.EventsSearchActivity
+import com.deonico.footballwiki.model.Event
 import com.deonico.footballwiki.model.League
-import com.deonico.footballwiki.model.Team
-import com.deonico.footballwiki.teams.detail.TeamsDetailActivity
 import com.deonico.footballwiki.teams.search.TeamsSearchActivity
 import com.deonico.footballwiki.util.invisible
 import com.deonico.footballwiki.util.visible
@@ -28,24 +27,7 @@ import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
-class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
-
-    private lateinit var spinner: Spinner
-    private lateinit var leagueId: String
-
-    private lateinit var listTeam: RecyclerView
-    private lateinit var adapter: TeamsAdapter
-
-
-    private lateinit var progressBar: ProgressBar
-    private lateinit var swipeRefresh: SwipeRefreshLayout
-    private lateinit var spinnerbar: LinearLayout
-
-    private var teams: MutableList<Team> = mutableListOf()
-    private var leagues: MutableList<League> = mutableListOf()
-
-    private lateinit var presenter: TeamsPresenter
-
+class NextEventsFragment : Fragment(), AnkoComponent<Context>, EventsView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -71,14 +53,14 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
 
             swipeRefresh = swipeRefreshLayout {
                 setColorSchemeResources(colorAccent,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light)
+                        android.R.color.holo_green_light,
+                        android.R.color.holo_orange_light,
+                        android.R.color.holo_red_light)
 
                 relativeLayout {
                     lparams(width = matchParent, height = wrapContent)
 
-                    listTeam = recyclerView {
+                    listEvent = recyclerView {
                         lparams(width = matchParent, height = wrapContent)
                         layoutManager = LinearLayoutManager(ctx)
                     }
@@ -86,7 +68,6 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
                     progressBar = progressBar {
                     }.lparams {
                         centerHorizontally()
-                        centerVertically()
                     }
                 }
             }
@@ -94,23 +75,36 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
 
     }
 
+    private lateinit var spinner: Spinner
+    private lateinit var leagueId: String
+
+
+    private lateinit var listEvent: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var swipeRefresh: SwipeRefreshLayout
+    private lateinit var spinnerbar: LinearLayout
+
+    private var events: MutableList<Event> = mutableListOf()
+    private var leagues: MutableList<League> = mutableListOf()
+
+    private lateinit var presenter: EventsPresenter
+    private lateinit var adapterEvents: EventsAdapter
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //set adapter
-        adapter = TeamsAdapter(teams){
-            startActivity<TeamsDetailActivity>(
-                "teamData" to it
-            )
+        adapterEvents = EventsAdapter(events){
+            startActivity<EventsDetailActivity>("eventData" to it)
         }
-        listTeam.adapter = adapter
+        listEvent.adapter = adapterEvents
 
         //get data
         val request = ApiRepository()
         val gson = Gson()
 
         //init presenter
-        presenter = TeamsPresenter(this, request, gson)
+        presenter = EventsPresenter(this, request, gson)
         presenter.getLeague()
 
         leagueId = "4331"
@@ -121,7 +115,7 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
 
                 leagueId = league.leagueId.orEmpty()
                 if(leagueId.isNotEmpty()){
-                    presenter.getTeamList(leagueId)
+                    presenter.getNextEvent(leagueId)
                 }
             }
 
@@ -129,19 +123,16 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
         }
 
         swipeRefresh.onRefresh {
-            spinnerbar.visible()
-            presenter.getTeamList(leagueId)
-            progressBar.invisible()
+            presenter.getNextEvent(leagueId)
         }
     }
 
-
     //imp mainView
-    override fun showTeamList(data: List<Team>) {
+    override fun showMatchList(data: List<Event>) {
         swipeRefresh.isRefreshing = false
-        teams.clear()
-        teams.addAll(data)
-        adapter.notifyDataSetChanged()
+        events.clear()
+        events.addAll(data)
+        adapterEvents.notifyDataSetChanged()
     }
 
     override fun showLoading() {
@@ -164,14 +155,14 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.findItem(R.id.searchMenu)?.setVisible(false)
-        menu?.findItem(R.id.searchMenu1)?.setVisible(true)
+        menu?.findItem(R.id.searchMenu)?.setVisible(true)
+        menu?.findItem(R.id.searchMenu1)?.setVisible(false)
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
 
-        menu?.findItem(R.id.searchMenu1)?.setVisible(true)
+        menu?.findItem(R.id.searchMenu)?.setVisible(true)
         menu?.clear()
         inflater?.inflate(
             R.menu.menu_search,
@@ -197,4 +188,5 @@ class TeamsFragment: Fragment(), AnkoComponent<Context>, TeamsView {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

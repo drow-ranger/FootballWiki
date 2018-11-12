@@ -1,4 +1,4 @@
-package com.deonico.footballwiki.events.search
+package com.deonico.footballwiki.favorites
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,25 +10,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.deonico.footballwiki.R
-import com.deonico.footballwiki.model.Event
+import com.deonico.footballwiki.db.EventDB
 import com.deonico.footballwiki.util.changeFormatDate
 import com.deonico.footballwiki.util.dateTimeToFormat
 import com.deonico.footballwiki.util.strTodate
 import com.deonico.footballwiki.util.toGMTFormat
+import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class EventsSearchAdapter(private val events: List<Event>,
-                          private val listener: (Event) -> Unit):
-    RecyclerView.Adapter<EventsSearchAdapter.EventViewHolder>(){
+class FavoriteEventsAdapter(private val events: List<EventDB>,
+                            private val listener: (EventDB) -> Unit):
+    RecyclerView.Adapter<FavoriteEventsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int) :
-        EventViewHolder{
-        return EventViewHolder(
+                                    viewType: Int):
+            ViewHolder {
+        return ViewHolder(
             LayoutInflater.
                 from(parent.context).
                 inflate(R.layout.item_list_event,
@@ -36,14 +37,14 @@ class EventsSearchAdapter(private val events: List<Event>,
                     false))
     }
 
-    override fun onBindViewHolder(holder: EventViewHolder,
+    override fun onBindViewHolder(holder: ViewHolder, 
                                   position: Int) {
         holder.bindItem(events[position], listener)
     }
 
-    override fun getItemCount() = events.size
+    override fun getItemCount() = events.count()
 
-    class EventViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         private val eventDate: TextView = itemView.find(R.id.tv_date)
         private val eventTime: TextView = itemView.find(R.id.tv_time)
         private val homeTeam: TextView = itemView.find(R.id.tv_home_name)
@@ -53,7 +54,7 @@ class EventsSearchAdapter(private val events: List<Event>,
         private val btnNotify: ImageView = itemView.find(R.id.iv_alarm)
 
         @SuppressLint("SimpleDateFormat")
-        fun bindItem(event: Event, listener: (Event) -> Unit){
+        fun bindItem(event: EventDB, listener: (EventDB) -> Unit){
             val date = strTodate(event.dateEvent)
             val dateTime = toGMTFormat(event.dateEvent, event.strTime)
             val formatDateLocale = changeFormatDate(date)

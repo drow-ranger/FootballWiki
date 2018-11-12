@@ -40,9 +40,9 @@ fun toGMTFormat(date: String?, time:String?): Date? {
     return formatter.parse(dateTime)
 }
 
-fun String.dateTimeToFormat(format: String = "yyyy-MM-dd HH:mm:ss"): Long {
+fun String.dateTimeToFormat(format: String = "E, dd MMM yyyy HH:mm:ss"): Long {
 
-    val formatter = SimpleDateFormat(format, Locale.ENGLISH)
+    val formatter = SimpleDateFormat(format)
     val date = formatter.parse(this)
 
     return date.time

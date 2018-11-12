@@ -1,31 +1,21 @@
 package com.deonico.footballwiki.events
 
-import android.app.SearchManager
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
 import android.view.*
-import android.widget.SearchView
-import com.deonico.footballwiki.R
-import com.deonico.footballwiki.R.id.search_menu
 import com.deonico.footballwiki.R.layout.fragment_events
-import com.deonico.footballwiki.events.search.EventsSearchActivity
 import kotlinx.android.synthetic.main.fragment_events.*
-import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.find
 
-/*class EventsFragment : Fragment() {
+class EventsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+        setHasOptionsMenu(true)
 
         return inflater.inflate(fragment_events, container, false)
     }
@@ -51,8 +41,8 @@ import org.jetbrains.anko.support.v4.find
     class PagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
         override fun getItem(position: Int): Fragment? {
             when (position) {
-                0 -> return EventsPreviousFragment()
-                1 -> return EventsPreviousFragment()
+                0 -> return NextEventsFragment()
+                1 -> return PreviousEventsFragment()
 
                 else -> return null
             }
@@ -70,10 +60,9 @@ import org.jetbrains.anko.support.v4.find
 
     }
 
+}
 
-
-}*/
-
+/*
 class EventsFragment: Fragment(){
     private var leagueId = "4331"   //EPL
 
@@ -135,4 +124,4 @@ class ViewPagerAdapter(manager: FragmentManager): FragmentPagerAdapter(manager) 
     }
 
     override fun getPageTitle(position: Int) = mFragmentTitleList.get(position)
-}
+}*/

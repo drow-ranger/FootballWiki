@@ -55,7 +55,7 @@ data class Team(
     @SerializedName("strTeamFanart4") val strTeamFanart4 : String? = null,
     @SerializedName("strTeamBanner") val strTeamBanner : String? = null,
     @SerializedName("strYoutube") val strYoutube : String? = null,
-    @SerializedName("strLocked") val strLocked : String
+    @SerializedName("strLocked") val strLocked : String? = null
 )
     :Parcelable
 
