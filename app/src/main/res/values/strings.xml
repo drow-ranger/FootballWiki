@@ -4,12 +4,11 @@
     <string name="events">Events</string>
     <string name="teams">Teams</string>
     <string name="favorites">Favorites</string>
+    <string name="player">Player</string>
 
     <string name="matches">Matches</string>
     <string name="this_fragment_two">This Fragment two</string>
     <string name="search">Search</string>
-    <string name="prev_match">Prev. Match</string>
-    <string name="next_match">Next Match</string>
     <string name="date">2018-07-22</string>
     <string name="home_score">3</string>
     <string name="away_score">2</string>
@@ -43,9 +42,8 @@
     <string name="french_ligue_1">French Ligue 1</string>
     <string name="spanish_la_liga">Spanish La Liga</string>
     <string name="next">NEXT</string>
-    <string name="last">LAST</string>
+    <string name="previous">PREVIOUS</string>
     <string name="overview">Overview</string>
-    <string name="player">Player</string>
     <string name="txt_weight">Weight (Kg)</string>
     <string name="txt_height">Height (M)</string>
     <string name="txt_show_more">Show All Content</string>
@@ -70,6 +68,18 @@
     <string name="add_favorite">Added to Favorite</string>
     <string name="remove_favorite">Remove to Favorite</string>
 
+    <string name="midlefield">Midlefield</string>
+    <string name="subtituties">Subtituties</string>
+    <string name="versus">VS</string>
+    <string name="hometeam">homeTeam</string>
+    <string name="awayteam">awayTeam</string>
+    <string name="teamFavorite">Favourite</string>
+    <string name="match">Match</string>
+    <string name="goal_keeper">Goal Keeper</string>
+    <string name="subtitutes">Subtituties</string>
+    <string name="fouls">Fouls</string>
+    <string name="yellowcard">Yellowcard</string>
+    <string name="redcard">Redcard</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

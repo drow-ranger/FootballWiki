@@ -44,6 +44,8 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
 
         event = intent.getParcelableExtra("eventData")
 
+        supportActionBar?.title = event.strEvent
+
         val date = strTodate(event.dateEvent)
         val dateTime = toGMTFormat(event.dateEvent, event.strTime)
         val formatDateLocale = changeFormatDate(date)
@@ -51,11 +53,11 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
 
         tv_date.text = formatDateLocale
 
-        home_club.text = event.strHomeTeam
-        home_score.text = event.intHomeScore
+        tv_team_home.text = event.strHomeTeam
+        tv_home_score.text = event.intHomeScore
 
-        away_club.text = event.strAwayTeam
-        away_score.text = event.intAwayScore
+        tv_team_away.text = event.strAwayTeam
+        tv_away_score.text = event.intAwayScore
 
         favoriteState()
 
@@ -64,21 +66,29 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
         presenter = EventsDetailPresenter(this, request, gson)
         presenter.getEventDetail(event.idEvent, event.idHomeTeam, event.idAwayTeam)
 
-        swipe_match.onRefresh {
+        swipeRefresh.onRefresh {
             presenter.getEventDetail(event.idEvent, event.idHomeTeam, event.idAwayTeam)
         }
-        swipe_match.setColorSchemeResources(colorAccent,
+        swipeRefresh.setColorSchemeResources(colorAccent,
             android.R.color.holo_green_light,
             android.R.color.holo_orange_light,
             android.R.color.holo_red_light)
     }
 
+    private fun parserGoal(input: String): String {
+        return input.replace(";", "\n", false)
+    }
+
+    private fun parser(input: String): String {
+        return input.replace("; ", "\n", false)
+    }
+
     override fun showLoading() {
-        swipe_match.isRefreshing = true
+        swipeRefresh.isRefreshing = true
     }
 
     override fun hideLoading() {
-        swipe_match.isRefreshing = false
+        swipeRefresh.isRefreshing = false
     }
 
     override fun showDetail(matchDetails: List<Event>, homeTeams: List<Team>, awayTeams: List<Team>) {
@@ -86,29 +96,33 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
         val homeTeam = homeTeams.get(0)
         val awayTeam = awayTeams.get(0)
 
-        Picasso.get().load(homeTeam.strTeamBadge).into(home_img)
-        home_club.text = eventDetail.strHomeTeam
-        home_score.text = eventDetail.intHomeScore
-        home_formation.text = eventDetail.strHomeFormation
-        home_goals.text = if(eventDetail.strHomeGoalDetails.isNullOrEmpty()) "-" else eventDetail.strHomeGoalDetails?.replace(";", ";\n")
-        home_shots.text = eventDetail.intHomeScore ?: "-"
-        home_goalkeeper.text = if(eventDetail.strHomeLineupGoalkeeper.isNullOrEmpty()) "-" else eventDetail.strHomeLineupGoalkeeper?.replace("; ", ";\n")
-        home_defense.text = if(eventDetail.strHomeLineupDefense.isNullOrEmpty()) "-" else eventDetail.strHomeLineupDefense?.replace("; ", ";\n")
-        home_midfield.text = if(eventDetail.strHomeLineupMidfield.isNullOrEmpty()) "-" else eventDetail.strHomeLineupMidfield?.replace("; ", ";\n")
-        home_forward.text = if(eventDetail.strHomeLineupForward.isNullOrEmpty()) "-" else eventDetail.strHomeLineupForward?.replace("; ", ";\n")
-        home_subtitutes.text = if(eventDetail.strHomeLineupSubstitutes.isNullOrEmpty()) "-" else eventDetail.strHomeLineupSubstitutes?.replace("; ", ";\n")
+        Picasso.get().load(homeTeam.strTeamBadge).into(iv_logo_home)
+        tv_team_home.text = event.strHomeTeam ?: " "
+        tv_home_score.text = event.intHomeScore ?: " "
+        tv_home_formation.text = event.strHomeFormation ?: " "
+        tv_home_goal.text = parserGoal(event.strHomeGoalDetails ?: " ")
+        tv_home_shot.text = event.intHomeShots ?: " "
+        tv_home_goalkeeper.text = parserGoal(event.strHomeLineupGoalkeeper ?: " ")
+        tv_home_defense.text = parser(event.strHomeLineupDefense ?: " ")
+        tv_home_midlefield.text = parser(event.strHomeLineupMidfield ?: " ")
+        tv_home_forward.text = parser(event.strHomeLineupForward ?: " ")
+        tv_home_subtituties.text = parser(event.strHomeLineupSubstitutes ?: " ")
+        tv_home_yellowcard.text = parser(event.strHomeYellowCards ?: " ")
+        tv_home_redcard.text = parser(event.strHomeRedCards ?: " ")
 
-        Picasso.get().load(awayTeam.strTeamBadge).into(away_img)
-        away_club.text = eventDetail.strAwayTeam
-        away_score.text = eventDetail.intAwayScore
-        away_formation.text = eventDetail.strAwayFormation
-        away_goals.text = if(eventDetail.strAwayGoalDetails.isNullOrEmpty()) "-" else eventDetail.strAwayGoalDetails?.replace(";", ";\n")
-        away_shots.text = eventDetail.intAwayShots ?: "-"
-        away_goalkeeper.text = if(eventDetail.strAwayLineupGoalkeeper.isNullOrEmpty()) "-" else eventDetail.strAwayLineupGoalkeeper?.replace("; ", ";\n")
-        away_defense.text = if(eventDetail.strAwayLineupDefense.isNullOrEmpty()) "-" else eventDetail.strAwayLineupDefense?.replace("; ", ";\n")
-        away_midfield.text = if(eventDetail.strAwayLineupMidfield.isNullOrEmpty()) "-" else eventDetail.strAwayLineupMidfield?.replace("; ", ";\n")
-        away_forward.text = if(eventDetail.strAwayLineupForward.isNullOrEmpty()) "-" else eventDetail.strAwayLineupForward?.replace("; ", ";\n")
-        away_subtitutes.text = if(eventDetail.strAwayLineupSubstitutes.isNullOrEmpty()) "-" else eventDetail.strAwayLineupSubstitutes?.replace("; ", ";\n")
+        Picasso.get().load(awayTeam.strTeamBadge).into(iv_logo_away)
+        tv_team_away.text = event.strAwayTeam ?: " "
+        tv_away_score.text = event.intAwayScore ?: " "
+        tv_away_formation.text = event.strAwayFormation ?: " "
+        tv_away_goal.text = parserGoal(event.strAwayGoalDetails ?: " ")
+        tv_away_shot.text = event.intAwayShots ?: " "
+        tv_away_goalkeeper.text = parserGoal(event.strAwayLineupGoalkeeper ?: " ")
+        tv_away_defense.text = parser(event.strAwayLineupDefense ?: " ")
+        tv_away_midlefield.text = parser(event.strAwayLineupMidfield ?: " ")
+        tv_away_forward.text = parser(event.strAwayLineupForward ?: " ")
+        tv_away_subtituties.text = parser(event.strAwayLineupSubstitutes ?: " ")
+        tv_away_yellowcard.text = parser(event.strAwayYellowCards ?: " ")
+        tv_away_redcard.text = parser(event.strAwayRedCards ?: " ")
 
         hideLoading()
     }

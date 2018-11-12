@@ -38,6 +38,9 @@ class PlayersDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         
         player = intent.getParcelableExtra("playerData")
+
+        supportActionBar?.title = player.strPlayer
+
         favoriteState()
         fillData()
 

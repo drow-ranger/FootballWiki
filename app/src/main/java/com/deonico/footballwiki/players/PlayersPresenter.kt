@@ -1,6 +1,5 @@
 package com.deonico.footballwiki.players
 
-import android.util.Log
 import com.deonico.footballwiki.api.ApiRepository
 import com.deonico.footballwiki.api.TheSportDBApi
 import com.deonico.footballwiki.model.PlayerResponse

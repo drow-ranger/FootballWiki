@@ -35,7 +35,7 @@ class TeamsDetailActivity: AppCompatActivity(){
         supportActionBar?.hide()
 
         val toolbar = team_detail_toolbar
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
+        toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.inflateMenu(R.menu.menu_favorite)
         menuItem  = toolbar.menu
 
@@ -57,6 +57,9 @@ class TeamsDetailActivity: AppCompatActivity(){
         }
 
         team = intent.getParcelableExtra("teamData")
+
+        supportActionBar?.title = team.strTeam
+
         fillData()
 
         setupViewPager(team_detail_viewpager)

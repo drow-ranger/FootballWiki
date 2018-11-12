@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.db.PlayerDB
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_list_player.view.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.coroutines.onClick
 

@@ -22,26 +22,26 @@ import java.util.concurrent.TimeUnit
 
 class EventsAdapter(private val events: List<Event>,
                     private val listener: (Event) -> Unit)
-    : RecyclerView.Adapter<EventsAdapter.MatchViewHolder>() {
+    : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int):
-            MatchViewHolder {
-        return MatchViewHolder(LayoutInflater.
+            ViewHolder {
+        return ViewHolder(LayoutInflater.
             from(parent.context).
             inflate(R.layout.item_list_event,
                 parent,
                 false))
     }
 
-    override fun onBindViewHolder(holder: MatchViewHolder,
+    override fun onBindViewHolder(holder: ViewHolder,
                                   position: Int) {
         holder.bindItem(events[position], listener)
     }
 
     override fun getItemCount(): Int = events.size
 
-    class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
         private val eventDate: TextView = itemView.find(R.id.tv_date)
         private val eventTime: TextView = itemView.find(R.id.tv_time)

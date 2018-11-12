@@ -19,7 +19,7 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        db?.createTable(EventDB.TABLE_MATCH, true,
+        db.createTable(EventDB.TABLE_MATCH, true,
             EventDB.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             EventDB.EVENT_ID to TEXT + UNIQUE,
             EventDB.EVENT_NAME to TEXT,

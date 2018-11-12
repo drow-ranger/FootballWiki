@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+>
 
     <item
         android:id="@+id/navigation_events"
-        android:title="@string/events"/>
+        android:title="@string/events"
+        android:icon="@drawable/ic_date"/>
     <item
         android:id="@+id/navigation_teams"
-        android:title="@string/teams"/>
+        android:title="@string/teams"
+        android:icon="@drawable/ic_teams"/>
     <item
         android:id="@+id/navigation_favorite"
-        android:title="@string/favorites"/>
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_favorite"/>
 </menu>

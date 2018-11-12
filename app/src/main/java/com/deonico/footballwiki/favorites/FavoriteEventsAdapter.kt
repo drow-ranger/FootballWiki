@@ -15,7 +15,6 @@ import com.deonico.footballwiki.util.changeFormatDate
 import com.deonico.footballwiki.util.dateTimeToFormat
 import com.deonico.footballwiki.util.strTodate
 import com.deonico.footballwiki.util.toGMTFormat
-import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.text.SimpleDateFormat

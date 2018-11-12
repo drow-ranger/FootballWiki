@@ -1,16 +1,13 @@
 package com.deonico.footballwiki
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.deonico.footballwiki.R.id.*
-import com.deonico.footballwiki.R.menu.menu_navigation
-import com.deonico.footballwiki.teams.TeamsFragment
 import com.deonico.footballwiki.events.EventsFragment
 import com.deonico.footballwiki.favorites.FavoritesFragment
+import com.deonico.footballwiki.teams.TeamsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

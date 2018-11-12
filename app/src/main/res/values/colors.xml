@@ -18,4 +18,17 @@
     <color name="tabTextColor">#ffffff</color>
     <color name="colorText">#bcbcbc</color>
 
+    <color name="white">#ffffff</color>
+    <color name="Goal">#098700</color>
+    <color name="Shot">#85ff67</color>
+    <color name="Lineups">#840000</color>
+    <color name="Fouls">#840000</color>
+    <color name="Sub">#840000</color>
+    <color name="GK">#d4b400</color>
+    <color name="Def">#004ad4</color>
+    <color name="Mid">#20d400</color>
+    <color name="For">#d40004</color>
+    <color name="YC">#ffd900</color>
+    <color name="RC">#ff0005</color>
+
 </resources>

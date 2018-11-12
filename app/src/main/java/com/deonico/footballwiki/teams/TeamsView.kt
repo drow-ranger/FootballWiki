@@ -1,4 +1,4 @@
-package com.deonico.footballwiki.Teams
+package com.deonico.footballwiki.teams
 
 import com.deonico.footballwiki.model.League
 import com.deonico.footballwiki.model.Team

@@ -15,7 +15,6 @@ import android.widget.TextView
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.model.Team
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.nestedScrollView
 
 
