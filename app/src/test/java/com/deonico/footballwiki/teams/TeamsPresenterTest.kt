@@ -6,10 +6,8 @@ import com.deonico.footballwiki.api.TheSportDBApi
 import com.deonico.footballwiki.model.Team
 import com.deonico.footballwiki.model.TeamResponse
 import com.google.gson.Gson
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`

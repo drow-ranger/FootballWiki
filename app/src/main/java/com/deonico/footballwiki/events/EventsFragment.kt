@@ -49,7 +49,7 @@ class EventsFragment : Fragment() {
         }
 
         override fun getCount(): Int {
-            return 2;
+            return 2
         }
 
         private val tabTitles = arrayOf("Next", "Previous")

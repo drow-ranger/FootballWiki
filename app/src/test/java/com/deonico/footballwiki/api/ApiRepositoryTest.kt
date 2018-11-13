@@ -1,8 +1,6 @@
 package com.deonico.footballwiki.api
 
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.mockito.Mockito
 
 class ApiRepositoryTest {

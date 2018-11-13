@@ -45,22 +45,6 @@ class EventsPresenter(private val view: EventsView,
         }
     }
 
-    fun searchMatch(keyword: String) {
-
-        view.showLoading()
-        async(context.main) {
-            val data = bg {
-                gson.fromJson(apiRepository
-                    .doRequest(TheSportDBApi.getEvents(keyword)),
-                    EventResponse::class.java
-                )
-            }
-
-            view.hideLoading()
-            view.showEventList(data.await().events)
-        }
-    }
-
     fun getLeague(){
         view.showLoading()
 
