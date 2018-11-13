@@ -20,7 +20,7 @@ class EventsDetailPresenter(private val view: EventsDetailView,
         async(context.main) {
             async(context.main) {
                 val matchDetail = bg {
-                    gson.fromJson(apiRepository.doRequest(TheSportDBApi.getMatchDetail(eventId)), EventResponse::class.java)
+                    gson.fromJson(apiRepository.doRequest(TheSportDBApi.getEventDetail(eventId)), EventResponse::class.java)
                 }
                 val homeTeam = bg {
                     gson.fromJson(ApiRepository().doRequest(TheSportDBApi.getTeamDetail(homeTeamId)), TeamResponse::class.java)

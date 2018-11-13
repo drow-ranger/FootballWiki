@@ -26,7 +26,7 @@ class EventsPresenter(private val view: EventsView,
             }
 
             view.hideLoading()
-            view.showMatchList(data.await().events)
+            view.showEventList(data.await().events)
         }
     }
 
@@ -41,7 +41,7 @@ class EventsPresenter(private val view: EventsView,
             }
 
             view.hideLoading()
-            view.showMatchList(data.await().events)
+            view.showEventList(data.await().events)
         }
     }
 
@@ -57,7 +57,7 @@ class EventsPresenter(private val view: EventsView,
             }
 
             view.hideLoading()
-            view.showMatchList(data.await().events)
+            view.showEventList(data.await().events)
         }
     }
 

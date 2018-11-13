@@ -114,7 +114,7 @@ class PlayersDetailActivity : AppCompatActivity() {
                     PlayerDB.PLAYER_THUMB to player.strThumb,
                     PlayerDB.DESCRIPTION to player.strDescriptionEN)
             }
-            Snackbar.make(player_detail_viewpager,"Added to favorite", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(player_detail_viewpager,R.string.add_favorite, Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
             Snackbar.make(player_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
@@ -125,7 +125,7 @@ class PlayersDetailActivity : AppCompatActivity() {
             database.use{
                 delete(PlayerDB.TABLE_PLAYER, "(PLAYER_ID = {id})", "id" to player.idPlayer.orEmpty())
             }
-            Snackbar.make(player_detail_viewpager,"Removed to favorite", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(player_detail_viewpager,R.string.remove_favorite, Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
             Snackbar.make(player_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }

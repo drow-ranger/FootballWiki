@@ -1,85 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <android.support.v7.widget.Toolbar
-                    android:id="@+id/team_detail_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_scrollFlags="enterAlways"/>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:background="@drawable/ic_bgteam">
-
-                <ImageView
-                        android:id="@+id/team_badge"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"/>
-
-                <TextView
-                        android:id="@+id/team_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:paddingTop="5dp"
-                        android:textColor="@android:color/primary_text_dark"/>
-
-                <TextView
-                        android:id="@+id/team_year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="16sp"
-                        android:paddingTop="2dp"
-                        android:textColor="@android:color/primary_text_dark"/>
-
-                <TextView
-                        android:id="@+id/team_stadium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="16sp"
-                        android:paddingTop="2dp"
-                        android:textColor="@android:color/primary_text_dark"/>
-            </LinearLayout>
-
-            <android.support.design.widget.TabLayout
-                    android:id="@+id/team_detail_tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="bottom"
-                    app:tabGravity="fill"
-                    app:tabMode="fixed"
-                    app:tabBackground="@color/tabBackground"
-                    app:tabIndicatorColor="@color/tabIndicatorColor"
-                    app:tabSelectedTextColor="@color/tabSelectedTextColor"
-                    app:tabTextColor="@color/tabTextColor" />
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                app:titleEnabled="false">
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                android:background="@drawable/ic_bgteam">
+
+            <ImageView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    tools:background="@color/white" />
+
+            <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/head1Text"
+                    android:textSize="22sp"/>
+
+            <TextView
+                    android:id="@+id/tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/head1Text"/>
+
+            <TextView
+                    android:id="@+id/tv_stadium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/head1Text"
+                    android:layout_marginBottom="5dp"/>
+
+        </LinearLayout>
+
+        <android.support.design.widget.TabLayout
+                android:id="@+id/team_detail_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="enterAlways"
+                app:tabBackground="@color/tabBackground"
+                app:tabIndicatorColor="@color/tabIndicatorColor"
+                app:tabSelectedTextColor="@color/tabSelectedTextColor"
+                app:tabTextColor="@color/tabTextColor" />
 
     </android.support.design.widget.AppBarLayout>
 

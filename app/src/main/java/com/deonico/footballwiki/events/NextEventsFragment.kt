@@ -128,7 +128,7 @@ class NextEventsFragment : Fragment(), AnkoComponent<Context>, EventsView {
     }
 
     //imp mainView
-    override fun showMatchList(data: List<Event>) {
+    override fun showEventList(data: List<Event>) {
         swipeRefresh.isRefreshing = false
         events.clear()
         events.addAll(data)

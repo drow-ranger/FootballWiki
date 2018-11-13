@@ -19,7 +19,7 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        db.createTable(EventDB.TABLE_MATCH, true,
+        db.createTable(EventDB.TABLE_EVENT, true,
             EventDB.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             EventDB.EVENT_ID to TEXT + UNIQUE,
             EventDB.EVENT_NAME to TEXT,
@@ -52,7 +52,7 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.dropTable(EventDB.TABLE_MATCH, true)
+        db.dropTable(EventDB.TABLE_EVENT, true)
         db.dropTable(TeamDB.TABLE_TEAM, true)
         db.dropTable(PlayerDB.TABLE_PLAYER, true)
     }

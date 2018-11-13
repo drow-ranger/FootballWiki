@@ -99,7 +99,7 @@ class FavoriteEventsFragment: Fragment(), AnkoComponent<Context> {
     private fun showFavorite(){
         requireContext().database.use {
             swipeRefresh.isRefreshing = true
-            val result = select(EventDB.TABLE_MATCH)
+            val result = select(EventDB.TABLE_EVENT)
             val match = result.parseList(classParser<EventDB>())
             events.clear()
             events.addAll(match)

@@ -50,7 +50,7 @@
                 android:layout_alignParentStart="false"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="@string/txt_versus"
+                android:text="@string/vs"
                 android:textColor="@color/contentText1"
                 android:textSize="16sp" />
 

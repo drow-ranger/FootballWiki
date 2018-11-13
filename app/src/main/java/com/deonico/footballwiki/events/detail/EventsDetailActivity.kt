@@ -156,7 +156,7 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
     private fun addToFavorite(){
         try {
             database.use {
-                insert(EventDB.TABLE_MATCH,
+                insert(EventDB.TABLE_EVENT,
                     EventDB.EVENT_ID to event.idEvent,
                     EventDB.EVENT_NAME to event.strEvent,
                     EventDB.EVENT_FILENAME to event.strFilename,
@@ -169,7 +169,7 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
                     EventDB.AWAY_TEAM_NAME to event.strAwayTeam,
                     EventDB.AWAY_TEAM_SCORE to event.intAwayScore)
             }
-            Snackbar.make(event_detail_viewpager,"Added to favorite", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(event_detail_viewpager,R.string.add_favorite, Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
             Snackbar.make(event_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
@@ -178,9 +178,9 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
     private fun removeFromFavorite(){
         try {
             database.use{
-                delete(EventDB.TABLE_MATCH, "(EVENT_ID = {id})", "id" to event.idEvent.orEmpty())
+                delete(EventDB.TABLE_EVENT, "(EVENT_ID = {id})", "id" to event.idEvent.orEmpty())
             }
-            Snackbar.make(event_detail_viewpager,"Removed to favorite", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(event_detail_viewpager,R.string.remove_favorite, Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
             Snackbar.make(event_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
@@ -194,7 +194,7 @@ class EventsDetailActivity : AppCompatActivity(), EventsDetailView {
 
     private fun favoriteState(){
         database.use {
-            val result = select(EventDB.TABLE_MATCH)
+            val result = select(EventDB.TABLE_EVENT)
                 .whereArgs("(EVENT_ID = {id})", "id" to event.idEvent.orEmpty())
             val favorite = result.parseList(classParser<EventDB
                     >())

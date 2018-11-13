@@ -6,6 +6,6 @@ import com.deonico.footballwiki.model.League
 interface EventsView {
     fun showLoading()
     fun hideLoading()
-    fun showMatchList(data: List<Event>)
+    fun showEventList(data: List<Event>)
     fun showLeague(data: List<League>)
 }

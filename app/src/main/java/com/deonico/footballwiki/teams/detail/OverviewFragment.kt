@@ -17,59 +17,8 @@ import com.deonico.footballwiki.model.Team
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.nestedScrollView
 
-
-/*
-class OverviewFragment : Fragment(), AnkoComponent<Context> {
-
-    private var parameter: String? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
-
-        parameter = getArguments()?.getString("parameter")
-
-
-//        val teamOverview = view?.find(R.id.team_overview)
-//                team_overview.text ?:  = parameter
-
-        return TextView(activity).apply {
-            setText(parameter)
-        }
-//        return createView(AnkoContext.create(ctx))
-    }
-
-    override fun createView(ui: AnkoContext<Context>): View = with(ui) {
-        linearLayout {
-            lparams(width = matchParent, height = wrapContent)
-            orientation = LinearLayout.VERTICAL
-            topPadding = dip(16)
-            leftPadding = dip(16)
-            rightPadding = dip(16)
-
-
-            textView {
-                id = R.id.team_overview
-                textSize = 16f
-            }.lparams{
-                margin = dip(15)
-            }
-
-
-        }
-
-    }
-
-
-
-
-
-}
-*/
-
 class OverviewFragment: Fragment(), AnkoComponent<Context> {
     private lateinit var team: Team
-    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var teamDescription: TextView
 
     companion object {

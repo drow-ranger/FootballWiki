@@ -1,86 +1,39 @@
 <resources>
     <string name="app_name">FootballWiki</string>
+    <string name="txt_splash_screen">Football Wiki For Football Fans</string>
 
     <string name="events">Events</string>
     <string name="teams">Teams</string>
     <string name="favorites">Favorites</string>
-    <string name="player">Player</string>
 
-    <string name="matches">Matches</string>
-    <string name="this_fragment_two">This Fragment two</string>
-    <string name="search">Search</string>
-    <string name="date">2018-07-22</string>
-    <string name="home_score">3</string>
-    <string name="away_score">2</string>
-    <string name="vs">VS</string>
-    <string name="home_club">Chelsea FC</string>
-    <string name="home_formation">4-2-3-1</string>
-    <string name="away_club">Arsenal FC</string>
-    <string name="goals">Goals</string>
-    <string name="home_goals">9\':Pedro Rodriguez;\n20\':Alvaro Morata;\n81\':Marcos Alonso;</string>
-    <string name="away_goals">37\':Henrikh Mkhitaryan;\n41\':Alex Iwobi;</string>
-    <string name="shots">Shots</string>
-    <string name="lineups">Lineups</string>
-    <string name="home_gk">Kepa Arrizabalaga;</string>
-    <string name="away_gk">Petr Cech;</string>
-    <string name="home_df">Cesar Azpilicueta;\n Antonio Ruediger;\n David Luiz;\n Marcos Alonso;</string>
-    <string name="away_df">Hector Bellerin;\n Shkodran Mustafi;\n Sokratis Papastathopoulos;\n Nacho Monreal;</string>
-    <string name="home_mf">N\'Golo Kante;\n Jorginho;\n Ross Barkley;</string>
-    <string name="away_mf">Granit Xhaka;\n Lucas Torreira;\n Pierre-Emerick Aubameyang;\n Mesut Oezil;\n Henrikh Mkhitaryan;</string>
-    <string name="home_fw">Pedro Rodriguez;\n Alvaro Morata;\n Eden Hazard;</string>
-    <string name="away_fw">Alexandre Lacazette;</string>
-    <string name="home_subs">Wilfredo Caballero;\n Andreas Christensen;\n Davide Zappacosta;\n Victor Moses;\n Eden Hazard;\n Mateo Kovacic;\n Olivier Giroud;</string>
-    <string name="away_subs">Bernd Leno;\n Stephan Lichtsteiner;\n Mohamed Elneny;\n Lucas Torreira;\n Aaron Ramsey;\n Danny Welbeck;\n Alexandre Lacazette;</string>
-    <string name="goalkeeper">Goalkeeper</string>
-    <string name="defense">Defense</string>
-    <string name="midfield">Midfield</string>
-    <string name="forward">Forward</string>
-    <string name="strip">-</string>
-    <string name="english_premier_league">English Premier League</string>
-    <string name="german_bundesliga">German Bundesliga</string>
-    <string name="italian_serie_a">Italian Serie A</string>
-    <string name="french_ligue_1">French Ligue 1</string>
-    <string name="spanish_la_liga">Spanish La Liga</string>
+    <string name="player">PLAYERS</string>
+    <string name="overview">OVERVIEW</string>
     <string name="next">NEXT</string>
     <string name="previous">PREVIOUS</string>
-    <string name="overview">Overview</string>
-    <string name="txt_weight">Weight (Kg)</string>
-    <string name="txt_height">Height (M)</string>
-    <string name="txt_show_more">Show All Content</string>
-    <string name="txt_show_less">Show Less</string>
-    <string name="position_text">Play Position</string>
 
-    <string name="txt_splash_screen">Football Wiki For Football Fans</string>
-    <string name="txt_matches">Matches</string>
-    <string name="txt_teams">Teams</string>
-    <string name="txt_msg_exit">Press Back Again To Exit</string>
-    <string name="txt_versus" translatable="false">VS</string>
-    <string name="txt_no_data_shown">No Data Shown</string>
-    <string name="txt_goal">Goal</string>
-    <string name="txt_lineup">Lineup</string>
-    <string name="txt_gk">Goal Keeper</string>
-    <string name="txt_df">Defense</string>
-    <string name="txt_mdf">Midfield</string>
-    <string name="txt_fw">Forward</string>
-    <string name="txt_sb">Subtituties</string>
-    <string name="txt_favourites">Favourite</string>
-    <string name="txt_search">Search</string>
-    <string name="add_favorite">Added to Favorite</string>
-    <string name="remove_favorite">Remove to Favorite</string>
-
+    <string name="goals">Goals</string>
+    <string name="shots">Shots</string>
+    <string name="lineups">Lineups</string>
+    <string name="goalkeeper">Goalkeeper</string>
+    <string name="defense">Defense</string>
     <string name="midlefield">Midlefield</string>
-    <string name="subtituties">Subtituties</string>
-    <string name="versus">VS</string>
-    <string name="hometeam">homeTeam</string>
-    <string name="awayteam">awayTeam</string>
-    <string name="teamFavorite">Favourite</string>
-    <string name="match">Match</string>
-    <string name="goal_keeper">Goal Keeper</string>
+    <string name="forward">Forward</string>
     <string name="subtitutes">Subtituties</string>
     <string name="fouls">Fouls</string>
     <string name="yellowcard">Yellowcard</string>
     <string name="redcard">Redcard</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="weight">Weight (Kg)</string>
+    <string name="height">Height (M)</string>
+    <string name="show_more">Show All Content</string>
+    <string name="show_less">Show Less</string>
+
+    <string name="strip">-</string>
+    <string name="vs">VS</string>
+    <string name="search">Search</string>
+
+    <string name="add_favorite">Added to Favorite</string>
+    <string name="remove_favorite">Removed to Favorite</string>
+    R.string.add_favorite
+    R.string.remove_favorite
 </resources>

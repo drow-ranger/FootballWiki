@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.view.MenuItem
 import com.deonico.footballwiki.R
 import com.deonico.footballwiki.db.TeamDB
 import com.deonico.footballwiki.db.database
@@ -32,33 +33,10 @@ class TeamsDetailActivity: AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_detail)
-        supportActionBar?.hide()
-
-        val toolbar = team_detail_toolbar
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.inflateMenu(R.menu.menu_favorite)
-        menuItem  = toolbar.menu
-
-        toolbar.setNavigationOnClickListener {
-            finish()
-        }
-
-        toolbar.setOnMenuItemClickListener {
-            if(it.itemId.equals(R.id.add_to_favorite)){
-                if(isFavorite) removeFromFavorite() else addToFavorite()
-
-                isFavorite = !isFavorite
-                setFavorite()
-
-                return@setOnMenuItemClickListener true
-            }else{
-                onOptionsItemSelected(it)
-            }
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         team = intent.getParcelableExtra("teamData")
 
-        supportActionBar?.title = team.strTeam
 
         fillData()
 
@@ -66,38 +44,62 @@ class TeamsDetailActivity: AppCompatActivity(){
         team_detail_tabs.setupWithViewPager(team_detail_viewpager)
 
         favoriteState()
-        setFavorite()
     }
 
     private fun fillData(){
-        Picasso.get().load(team.strTeamBadge).into(team_badge)
-        team_name.text = team.strTeam
-        team_year.text = team.intFormedYear
-        team_stadium.text = team.strStadium
+        Picasso.get().load(team.strTeamBadge).into(iv_icon)
+        tv_name.text = team.strTeam
+        tv_year.text = team.intFormedYear
+        tv_stadium.text = team.strStadium
+        supportActionBar?.title = team.strTeam
     }
 
     private fun setupViewPager(viewPager: ViewPager){
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFrag(OverviewFragment.newFragment(team), "Overview")
-        adapter.addFrag(PlayersFragment.newFragment(team), "Players")
+        adapter.addFrag(OverviewFragment.newFragment(team), "OVERVIEW")
+        adapter.addFrag(PlayersFragment.newFragment(team), "PLAYERS")
         viewPager.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_favorite, menu)
+        menuItem = menu
+        setFavorite()
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId){
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.add_to_favorite -> {
+                if(isFavorite) removeFromFavorite() else addToFavorite()
+
+                isFavorite = !isFavorite
+                setFavorite()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun addToFavorite(){
         try{
             database.use {
                 insert(table.TABLE_TEAM,
-                        table.TEAM_ID to team.idTeam,
-                        table.TEAM_NAME to team.strTeam,
-                        table.TEAM_LOGO to team.strTeamBadge,
-                        table.STADIUM to team.strStadium,
-                        table.TEAM_YEAR to team.intFormedYear,
-                        table.DESCRIPTION to team.strDescriptionEN)
+                    table.TEAM_ID to team.idTeam,
+                    table.TEAM_NAME to team.strTeam,
+                    table.TEAM_LOGO to team.strTeamBadge,
+                    table.STADIUM to team.strStadium,
+                    table.TEAM_YEAR to team.intFormedYear,
+                    table.DESCRIPTION to team.strDescriptionEN)
             }
-            //team_detail_viewpager.snackbar("Added to favorite").show()
-            Snackbar.make(team_detail_viewpager,"Added to favorite", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(team_detail_viewpager,R.string.add_favorite, Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
-            //team_detail_viewpager.snackbar(e.localizedMessage).show()
             Snackbar.make(team_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
     }
@@ -107,9 +109,8 @@ class TeamsDetailActivity: AppCompatActivity(){
             database.use {
                 delete(table.TABLE_TEAM, "(TEAM_ID = {id})", "id" to team.idTeam!!)
             }
-            Snackbar.make(team_detail_viewpager,"Removed to favorite", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(team_detail_viewpager,R.string.remove_favorite, Snackbar.LENGTH_LONG).show()
         }catch (e: SQLiteConstraintException){
-            //team_detail_viewpager.snackbar(e.localizedMessage).show()
             Snackbar.make(team_detail_viewpager,e.localizedMessage, Snackbar.LENGTH_LONG).show()
         }
     }
@@ -122,8 +123,8 @@ class TeamsDetailActivity: AppCompatActivity(){
     private fun favoriteState(){
         database.use {
             val result = select(table.TABLE_TEAM)
-                    .whereArgs("(TEAM_ID = {id})",
-                        "id" to team.idTeam!!)
+                .whereArgs("(TEAM_ID = {id})",
+                    "id" to team.idTeam!!)
             val favorite = result.parseList(classParser<TeamDB>())
             if (!favorite.isEmpty()) isFavorite = true
         }

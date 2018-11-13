@@ -112,7 +112,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_weight"
+                            android:text="@string/weight"
                             android:textSize="22sp"
                             android:textColor="@color/head2Text"/>
 
@@ -137,7 +137,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_height"
+                            android:text="@string/height"
                             android:textSize="22sp"
                             android:textColor="@color/head2Text"/>
 
@@ -179,8 +179,8 @@
                     android:paddingTop="8dp"
                     android:textAlignment="viewStart"
                     android:textColor="@color/contentText1"
-                    app:trimCollapsedText="@string/txt_show_more"
-                    app:trimExpandedText="@string/txt_show_less"
+                    app:trimCollapsedText="@string/show_more"
+                    app:trimExpandedText="@string/show_less"
                     app:colorClickableText="@color/head2Text"
                     app:trimMode="trimModeLength"
                     app:trimLength="200"/>

@@ -12,7 +12,7 @@ object TheSportDBApi {
     fun getListLeague() = urlBuild("search_all_leagues.php?s=Soccer")
     fun getPreviousEvent(id: String?) = urlBuild("eventspastleague.php", id)
     fun getNextEvent(id: String?) = urlBuild("eventsnextleague.php", id)
-    fun getMatchDetail(id: String?) = urlBuild("lookupevent.php", id)
+    fun getEventDetail(id: String?) = urlBuild("lookupevent.php", id)
     fun getAllTeams(id: String?) = urlBuild("lookup_all_teams.php", id)
     fun getTeamDetail(id: String?) = urlBuild("lookupteam.php", id)
     fun getPlayers(id: String?) = urlBuild("lookup_all_players.php", id)

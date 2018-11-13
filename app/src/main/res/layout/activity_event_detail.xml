@@ -301,7 +301,7 @@
                         android:gravity="center"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
-                        android:text="@string/goal_keeper"
+                        android:text="@string/goalkeeper"
                         android:textColor="@color/GK"
                         style="@style/subtitle" />
 
@@ -399,7 +399,7 @@
                         android:gravity="center"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
-                        android:text="@string/midfield"
+                        android:text="@string/midlefield"
                         android:textColor="@color/Mid"
                         style="@style/subtitle" />
 
